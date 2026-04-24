@@ -2,6 +2,8 @@ import { getAllCategories, getSingleCategory, getCategoryTree } from '../../cont
 import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.mock('../../config/connDB.js');
+jest.mock('../../logger/logger.js');
 
 describe('Categories Query Tests', () => {
     let req;

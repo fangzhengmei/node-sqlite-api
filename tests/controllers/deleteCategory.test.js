@@ -2,6 +2,8 @@ import { deleteCategory } from '../../controllers/categoryController.js';
 import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.mock('../../config/connDB.js');
+jest.mock('../../logger/logger.js');
 
 describe('deleteCategory test', () => {
     let req;

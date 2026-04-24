@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncWrapper.js";
-import { execute, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
+import { execute, executeAndGetLastId, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
 
@@ -48,51 +48,31 @@ export const createBooks = asyncHandler(async(req, res)=>{
             if (!category) {
                 logger.warn(`Invalid category_id: ${categoryId}`);
                 const error = new Error(`No such category with id ${categoryId} exists`);
-                error.statusCode = 400;
+                error.statusCode = 404;
                 throw error;
             }
         }
     }
 
-    db.serialize(async () => {
-        db.run('BEGIN TRANSACTION');
-        
-        try {
-            const sql = `INSERT INTO books
-            (title, isbn, published_year, author_id)
-            VALUES
-            (?,?,?,?)`;
-            
-            await new Promise((resolve, reject) => {
-                db.run(sql, [title, isbn, published_year, author_id], function(err) {
-                    if (err) reject(err);
-                    else resolve(this.lastID);
-                });
-            }).then(async (bookId) => {
-                if (category_ids && Array.isArray(category_ids) && category_ids.length > 0) {
-                    for (const categoryId of category_ids) {
-                        await new Promise((resolve, reject) => {
-                            db.run(
-                                `INSERT OR IGNORE INTO book_categories (book_id, category_id) VALUES (?, ?)`,
-                                [bookId, categoryId],
-                                (err) => {
-                                    if (err) reject(err);
-                                    else resolve();
-                                }
-                            );
-                        });
-                    }
-                }
-                
-                db.run('COMMIT');
-                logger.info(`Book created successfully, title : ${title} ISBN: ${isbn}`);
-                return res.status(201).json({msg:'Book created successfully'});
-            });
-        } catch (err) {
-            db.run('ROLLBACK');
-            throw err;
+    const sql = `INSERT INTO books
+    (title, isbn, published_year, author_id)
+    VALUES
+    (?,?,?,?)`;
+    
+    const bookId = await executeAndGetLastId(db, sql, [title, isbn, published_year, author_id]);
+
+    if (category_ids && Array.isArray(category_ids) && category_ids.length > 0) {
+        for (const categoryId of category_ids) {
+            await execute(
+                db,
+                `INSERT OR IGNORE INTO book_categories (book_id, category_id) VALUES (?, ?)`,
+                [bookId, categoryId]
+            );
         }
-    });
+    }
+    
+    logger.info(`Book created successfully, title : ${title} ISBN: ${isbn}`);
+    return res.status(201).json({msg:'Book created successfully'});
 });
 
 export const getAllBooks = asyncHandler(async(req, res)=>{

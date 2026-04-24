@@ -15,6 +15,15 @@ export const execute = async(db , sql , params = [])=>{
     })
 }
 
+export const executeAndGetLastId = async(db, sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        db.run(sql, params, function(err) {
+            if(err) reject(err);
+            resolve(this.lastID);
+        });
+    });
+}
+
 export const fetchFirst = async (db, sql, params) => {
   return new Promise((resolve, reject) => {
     db.get(sql, params, (err, row) => {

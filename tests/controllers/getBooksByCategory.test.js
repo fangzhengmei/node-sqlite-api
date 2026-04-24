@@ -2,6 +2,8 @@ import { getBooksByCategory } from '../../controllers/categoryController.js';
 import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.mock('../../config/connDB.js');
+jest.mock('../../logger/logger.js');
 
 describe('getBooksByCategory test', () => {
     let req;

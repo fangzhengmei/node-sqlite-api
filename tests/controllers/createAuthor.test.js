@@ -1,7 +1,9 @@
 import { createAuthor } from "../../controllers/authorController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js'
+import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.mock('../../config/connDB.js');
+jest.mock('../../logger/logger.js');
 
 describe('createAuthor unit tests', ()=>{
     let req;
