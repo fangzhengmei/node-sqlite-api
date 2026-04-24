@@ -22,6 +22,16 @@ export const validateCreateBook = [
     .notEmpty()
     .isInt({ min: 1 })
     .withMessage('Author ID must be a positive integer'),
+
+  body('category_ids')
+    .optional()
+    .isArray()
+    .withMessage('category_ids must be an array')
+    .custom((arr) => {
+      if (arr.length === 0) return true;
+      return arr.every((id) => Number.isInteger(id) && id > 0);
+    })
+    .withMessage('All category IDs must be positive integers'),
 ];
 
 export const getAllBooksValidator = [
@@ -31,15 +41,20 @@ export const getAllBooksValidator = [
     .escape()
     .notEmpty()
     .withMessage('Title is required'),
-  
+
+  query('category_id')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Category ID must be a positive integer')
+    .toInt(),
+
   query('year')
     .optional()
     .isInt({ min: 1000, max: 9999 })
     .withMessage('Published year must be a 4-digit number representing a valid year'),
-  
+
   query('order')
     .optional()
-    //custom always runs even with .optional()
     .custom((order) => {
       if (!order) return true;
       const allowedOrders = ['ASC', 'DESC'];
@@ -48,7 +63,7 @@ export const getAllBooksValidator = [
       }
       return true;
     }),
-  
+
   query('sort')
     .optional()
     .custom((sort)=>{
@@ -73,12 +88,12 @@ export const getAllBooksValidator = [
     .isInt({gt : 0})
     .withMessage('Page number must be greater than 0')
     .toInt(),
-    
+
   query('limit')
     .optional()
     .trim()
-    .isInt({git : 0})
-    .withMessage('Limit  must be greater than 0')
+    .isInt({gt : 0})
+    .withMessage('Limit must be greater than 0')
     .toInt()
 ]
 
@@ -94,9 +109,9 @@ export const getSingleBookValidator = [
 export const updateBooksValidator = [
   param('id')
     .exists()
-    .withMessage('ID is required')                                        
+    .withMessage('ID is required')
     .isInt({ gt: 0 })
-    .withMessage('ID must be a positive integer') 
+    .withMessage('ID must be a positive integer')
     .toInt(),
 
   body('title')
@@ -105,7 +120,7 @@ export const updateBooksValidator = [
     .escape()
     .notEmpty()
     .withMessage('Title is required'),
-  
+
   body('isbn')
     .optional()
     .notEmpty()
@@ -124,4 +139,14 @@ export const updateBooksValidator = [
     .notEmpty()
     .isInt({ min: 1 })
     .withMessage('Author ID must be a positive integer'),
+
+  body('category_ids')
+    .optional()
+    .isArray()
+    .withMessage('category_ids must be an array')
+    .custom((arr) => {
+      if (arr.length === 0) return true;
+      return arr.every((id) => Number.isInteger(id) && id > 0);
+    })
+    .withMessage('All category IDs must be positive integers'),
 ]

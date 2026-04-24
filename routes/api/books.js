@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { getAllBooksValidator, getSingleBookValidator, updateBooksValidator, validateCreateBook } from "../../validation/bookValidator.js";
+import { validateBookCategories } from "../../validation/categoryValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
 import { createBooks, getAllBooks, getSingleBook, updateBooks } from "../../controllers/booksController.js";
+import { setBookCategories, getBookCategories } from "../../controllers/categoryController.js";
 
 export const bookRouter = Router();
 
@@ -242,8 +244,11 @@ export const bookRouter = Router();
  *               msg: "Book with this isbn already exists, update it to something else"
  */
 
-bookRouter.post('/',validateCreateBook, validationErrorHandler, createBooks );
-bookRouter.get('/' , getAllBooksValidator, validationErrorHandler,  getAllBooks );
-bookRouter.get('/:id' , getSingleBookValidator, validationErrorHandler,  getSingleBook );
-bookRouter.put('/:id' , updateBooksValidator, validationErrorHandler, updateBooks );
+bookRouter.post('/', validateCreateBook, validationErrorHandler, createBooks);
+bookRouter.get('/', getAllBooksValidator, validationErrorHandler, getAllBooks);
+bookRouter.get('/:id', getSingleBookValidator, validationErrorHandler, getSingleBook);
+bookRouter.put('/:id', updateBooksValidator, validationErrorHandler, updateBooks);
+
+bookRouter.get('/:bookId/categories', getSingleBookValidator, validationErrorHandler, getBookCategories);
+bookRouter.put('/:bookId/categories', validateBookCategories, validationErrorHandler, setBookCategories);
 
