@@ -33,3 +33,41 @@ export const fetchAll = async(db, sql, params)=>{
   })
 }
 
+export const beginTransaction = async(db)=>{
+    return new Promise((resolve, reject)=>{
+        db.run('BEGIN TRANSACTION', (err)=>{
+            if(err) reject(err);
+            resolve();
+        })
+    })
+}
+
+export const commitTransaction = async(db)=>{
+    return new Promise((resolve, reject)=>{
+        db.run('COMMIT', (err)=>{
+            if(err) reject(err);
+            resolve();
+        })
+    })
+}
+
+export const rollbackTransaction = async(db)=>{
+    return new Promise((resolve, reject)=>{
+        db.run('ROLLBACK', (err)=>{
+            if(err) reject(err);
+            resolve();
+        })
+    })
+}
+
+export const runWithTransaction = async(db, callback)=>{
+    try {
+        await beginTransaction(db);
+        const result = await callback();
+        await commitTransaction(db);
+        return result;
+    } catch (err) {
+        await rollbackTransaction(db);
+        throw err;
+    }
+}

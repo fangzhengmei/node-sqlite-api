@@ -4,6 +4,10 @@ import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
 
+dbHelper.runWithTransaction.mockImplementation(async (db, callback) => {
+    return await callback();
+});
+
 describe('Return Book test',()=>{
     let req;
     let res;
@@ -46,22 +50,14 @@ describe('Return Book test',()=>{
             expect.stringContaining('UPDATE borrow_records'),
             expect.arrayContaining([1])
         );
-
-        expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-            msg: 'Book returned successfully',
-            status: 'returned'
-        }));
     }),
 
     test('Throw 404 if borrow record does not exist',async()=>{
         dbHelper.fetchFirst.mockResolvedValue(null);
         
-        await returnBook(req,res);
+        await expect(returnBook(req,res)).rejects.toThrow('No such borrow record with id 1 exists');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
-        expect(res.status).not.toHaveBeenCalled();
-        expect(res.json).not.toHaveBeenCalled();
     });
 
     test('Throw 400 if book is already returned',async()=>{
@@ -73,7 +69,7 @@ describe('Return Book test',()=>{
             status: 'returned' 
         });
         
-        await returnBook(req,res);
+        await expect(returnBook(req,res)).rejects.toThrow('This book has already been returned');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });

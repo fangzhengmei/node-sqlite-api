@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getBorrowsValidation, getSingleBorrowValidation, createBorrowValidation, returnBorrowValidation } from "../../validation/borrowValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
-import { borrowBook, returnBook, getAllBorrowRecords, getSingleBorrowRecord } from "../../controllers/borrowController.js";
+import { borrowBook, returnBook, getAllBorrowRecords, getSingleBorrowRecord, updateOverdueStatuses } from "../../controllers/borrowController.js";
 
 export const borrowRouter = Router();
 
@@ -266,7 +266,24 @@ export const borrowRouter = Router();
  *               msg: "This book has already been returned"
  */
 
+/**
+ * @swagger
+ * /borrows/update-overdue:
+ *   post:
+ *     summary: Update overdue statuses
+ *     description: Batch update all overdue borrow records status from 'borrowed' to 'overdue'. Can be called by a scheduled job.
+ *     tags: [Borrows]
+ *     responses:
+ *       200:
+ *         description: Overdue statuses updated successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Overdue statuses updated successfully"
+ */
+
 borrowRouter.post('/', createBorrowValidation, validationErrorHandler, borrowBook);
 borrowRouter.get('/', getBorrowsValidation, validationErrorHandler, getAllBorrowRecords);
 borrowRouter.get('/:id', getSingleBorrowValidation, validationErrorHandler, getSingleBorrowRecord);
 borrowRouter.put('/:id/return', returnBorrowValidation, validationErrorHandler, returnBook);
+borrowRouter.post('/update-overdue', updateOverdueStatuses);

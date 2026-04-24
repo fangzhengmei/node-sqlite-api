@@ -1,7 +1,26 @@
 import { asyncHandler } from "../utils/asyncWrapper.js";
-import { execute, fetchAll, fetchFirst } from "../utils/dbRunMethodWrapper.js";
+import { execute, fetchAll, fetchFirst, runWithTransaction } from "../utils/dbRunMethodWrapper.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
+
+const calculateStatus = (record) => {
+    if (!record || !record.borrow_status) return null;
+    if (record.borrow_status === 'returned') {
+        return 'returned';
+    }
+    if (record.borrow_status === 'overdue') {
+        return 'overdue';
+    }
+    if (record.borrow_status === 'borrowed') {
+        const dueDate = new Date(record.due_date);
+        const currentDate = new Date();
+        if (currentDate > dueDate) {
+            return 'overdue';
+        }
+        return 'borrowed';
+    }
+    return record.borrow_status;
+};
 
 export const createReader = asyncHandler(async(req , res) =>{
     const { name, email, phone, address } = req.body;
@@ -103,16 +122,20 @@ export const getSingleReader = asyncHandler(async(req,res)=>{
         created_at: reader[0].reader_created_at,
         borrow_records: reader
         .filter(r => r.borrow_id !== null)
-        .map(row => ({
-            id: row.borrow_id,
-            book_id: row.book_id,
-            book_title: row.book_title,
-            book_isbn: row.book_isbn,
-            borrow_date: row.borrow_date,
-            due_date: row.due_date,
-            return_date: row.return_date,
-            status: row.borrow_status
-        }))
+        .map(row => {
+            const effectiveStatus = calculateStatus(row);
+            return {
+                id: row.borrow_id,
+                book_id: row.book_id,
+                book_title: row.book_title,
+                book_isbn: row.book_isbn,
+                borrow_date: row.borrow_date,
+                due_date: row.due_date,
+                return_date: row.return_date,
+                status: effectiveStatus,
+                is_overdue: effectiveStatus === 'overdue'
+            };
+        })
     };
     logger.info(`Reader retrieved successfully`);
     return res.status(200).json({msg:'Reader retreived sucessfully', data : formattedReader});

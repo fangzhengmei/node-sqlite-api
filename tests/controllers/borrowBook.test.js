@@ -4,6 +4,10 @@ import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
 
+dbHelper.runWithTransaction.mockImplementation(async (db, callback) => {
+    return await callback();
+});
+
 describe('Borrow Book test',()=>{
     let req;
     let res;
@@ -65,11 +69,9 @@ describe('Borrow Book test',()=>{
     test('Throw 400 if reader does not exist',async()=>{
         dbHelper.fetchFirst.mockResolvedValue(null);
         
-        await borrowBook(req,res);
+        await expect(borrowBook(req,res)).rejects.toThrow('No such reader with id 1 exists');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
-        expect(res.status).not.toHaveBeenCalled();
-        expect(res.json).not.toHaveBeenCalled();
     });
 
     test('Throw 400 if book does not exist',async()=>{
@@ -77,7 +79,7 @@ describe('Borrow Book test',()=>{
             .mockResolvedValueOnce({ id: 1, name: '张三', email: 'zhangsan@example.com' })
             .mockResolvedValueOnce(null);
         
-        await borrowBook(req,res);
+        await expect(borrowBook(req,res)).rejects.toThrow('No such book with id 1 exists');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });
@@ -88,7 +90,7 @@ describe('Borrow Book test',()=>{
             .mockResolvedValueOnce({ id: 1, title: 'Harry Potter', isbn: '1234567890' })
             .mockResolvedValueOnce({ id: 1, reader_id: 2, book_id: 1, status: 'borrowed' });
         
-        await borrowBook(req,res);
+        await expect(borrowBook(req,res)).rejects.toThrow('This book is currently borrowed by another reader');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });
@@ -100,7 +102,7 @@ describe('Borrow Book test',()=>{
             .mockResolvedValueOnce(null)
             .mockResolvedValueOnce({ count: 5 });
         
-        await borrowBook(req,res);
+        await expect(borrowBook(req,res)).rejects.toThrow('Reader has reached the maximum borrow limit of 5 books');
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });
