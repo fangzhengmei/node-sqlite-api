@@ -80,7 +80,7 @@ export const borrowBook = asyncHandler(async(req, res)=>{
         
         const sql = `INSERT INTO borrow_records(reader_id, book_id, due_date, status) VALUES (?,?,?,?)`;
         await execute(db, sql, [reader_id, book_id, due_date, 'borrowed']);
-    });
+    }, 'IMMEDIATE');
     
     logger.info(`Book borrowed successfully, book id: ${book_id}, reader id: ${reader_id}`);
     return res.status(200).json({msg:'Book borrowed successfully'});
@@ -125,7 +125,7 @@ export const returnBook = asyncHandler(async(req, res)=>{
         
         logger.info(`Book returned successfully, borrow record id: ${id}, status: ${status}`);
         return res.status(200).json({msg:'Book returned successfully', status});
-    });
+    }, 'IMMEDIATE');
 });
 
 export const getAllBorrowRecords = asyncHandler(async(req,res)=>{

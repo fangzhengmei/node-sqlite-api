@@ -4,7 +4,7 @@ import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
 
-dbHelper.runWithTransaction.mockImplementation(async (db, callback) => {
+dbHelper.runWithTransaction.mockImplementation(async (db, callback, mode) => {
     return await callback();
 });
 

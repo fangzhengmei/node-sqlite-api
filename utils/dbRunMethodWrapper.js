@@ -33,9 +33,15 @@ export const fetchAll = async(db, sql, params)=>{
   })
 }
 
-export const beginTransaction = async(db)=>{
+export const beginTransaction = async(db, mode = 'DEFERRED')=>{
+    const modes = {
+        'DEFERRED': 'BEGIN TRANSACTION',
+        'IMMEDIATE': 'BEGIN IMMEDIATE TRANSACTION',
+        'EXCLUSIVE': 'BEGIN EXCLUSIVE TRANSACTION'
+    };
+    const sql = modes[mode] || modes['DEFERRED'];
     return new Promise((resolve, reject)=>{
-        db.run('BEGIN TRANSACTION', (err)=>{
+        db.run(sql, (err)=>{
             if(err) reject(err);
             resolve();
         })
@@ -60,9 +66,9 @@ export const rollbackTransaction = async(db)=>{
     })
 }
 
-export const runWithTransaction = async(db, callback)=>{
+export const runWithTransaction = async(db, callback, mode = 'DEFERRED')=>{
     try {
-        await beginTransaction(db);
+        await beginTransaction(db, mode);
         const result = await callback();
         await commitTransaction(db);
         return result;
