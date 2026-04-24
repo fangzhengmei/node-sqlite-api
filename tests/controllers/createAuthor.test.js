@@ -12,6 +12,11 @@ describe('createAuthor unit tests', ()=>{
 
         req = {
             body : { name : 'Test', email : 'test@gmail.com'},
+            user: {
+                id: 1,
+                username: 'testuser',
+                role: 'user'
+            }
         };
 
         res = {
@@ -34,8 +39,8 @@ describe('createAuthor unit tests', ()=>{
 
         expect(dbHelpers.execute).toHaveBeenCalledWith(
             expect.anything(),
-            'INSERT INTO authors(name, email) VALUES (?,?)',
-            ['Test','test@gmail.com']
+            'INSERT INTO authors(name, email, created_by) VALUES (?,?,?)',
+            ['Test','test@gmail.com', 1]
         );
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -61,4 +66,3 @@ describe('createAuthor unit tests', ()=>{
         expect(res.json).not.toHaveBeenCalled();
     })
 })
-
