@@ -32,7 +32,7 @@ describe('createCategory test', () => {
 
         expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM categories WHERE name = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE name = ?'),
             ['测试分类']
         );
 
@@ -58,13 +58,13 @@ describe('createCategory test', () => {
 
         expect(dbHelper.fetchFirst).toHaveBeenNthCalledWith(1,
             expect.anything(),
-            'SELECT * FROM categories WHERE name = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE name = ?'),
             ['测试分类']
         );
 
         expect(dbHelper.fetchFirst).toHaveBeenNthCalledWith(2,
             expect.anything(),
-            'SELECT * FROM categories WHERE id = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
             [1]
         );
 

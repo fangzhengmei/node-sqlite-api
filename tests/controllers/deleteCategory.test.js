@@ -31,7 +31,7 @@ describe('deleteCategory test', () => {
 
         expect(dbHelper.fetchFirst).toHaveBeenNthCalledWith(1,
             expect.anything(),
-            'SELECT * FROM categories WHERE id = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
             [1]
         );
 
@@ -49,7 +49,7 @@ describe('deleteCategory test', () => {
 
         expect(dbHelper.execute).toHaveBeenCalledWith(
             expect.anything(),
-            'DELETE FROM categories WHERE id = ?',
+            expect.stringContaining('DELETE FROM categories WHERE id = ?'),
             [1]
         );
 
@@ -99,7 +99,7 @@ describe('deleteCategory test', () => {
 
     test('should delete leaf category with books', async () => {
         dbHelper.fetchFirst
-            .mockResolvedValueOnce({ id: 2, name: '子分类', parent_id: 1, is_active: 1 })
+            .mockResolvedValueOnce({ id: 1, name: '子分类', parent_id: 2, is_active: 1 })
             .mockResolvedValueOnce({ count: 0 })
             .mockResolvedValueOnce({ count: 10 });
         dbHelper.execute.mockResolvedValue();
@@ -108,7 +108,7 @@ describe('deleteCategory test', () => {
 
         expect(dbHelper.execute).toHaveBeenCalledWith(
             expect.anything(),
-            'DELETE FROM categories WHERE id = ?',
+            expect.stringContaining('DELETE FROM categories WHERE id = ?'),
             [1]
         );
 

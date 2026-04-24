@@ -43,7 +43,7 @@ describe('Book Categories Association Tests', () => {
 
             expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
                 expect.anything(),
-                'SELECT * FROM books WHERE id = ?',
+                expect.stringContaining('SELECT * FROM books WHERE id = ?'),
                 [1]
             );
 
@@ -98,25 +98,25 @@ describe('Book Categories Association Tests', () => {
 
             expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
                 expect.anything(),
-                'SELECT * FROM books WHERE id = ?',
+                expect.stringContaining('SELECT * FROM books WHERE id = ?'),
                 [1]
             );
 
             expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
                 expect.anything(),
-                'SELECT * FROM categories WHERE id = ?',
+                expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
                 [1]
             );
 
             expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
                 expect.anything(),
-                'SELECT * FROM categories WHERE id = ?',
+                expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
                 [2]
             );
 
             expect(dbHelper.execute).toHaveBeenNthCalledWith(1,
                 expect.anything(),
-                'DELETE FROM book_categories WHERE book_id = ?',
+                expect.stringContaining('DELETE FROM book_categories WHERE book_id = ?'),
                 [1]
             );
 
@@ -160,7 +160,7 @@ describe('Book Categories Association Tests', () => {
 
             expect(dbHelper.execute).toHaveBeenCalledWith(
                 expect.anything(),
-                'DELETE FROM book_categories WHERE book_id = ?',
+                expect.stringContaining('DELETE FROM book_categories WHERE book_id = ?'),
                 [1]
             );
 

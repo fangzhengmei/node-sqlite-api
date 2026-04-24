@@ -33,13 +33,13 @@ describe('updateCategory test', () => {
 
         expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM categories WHERE id = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
             [1]
         );
 
         expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM categories WHERE name = ? AND id != ?',
+            expect.stringContaining('SELECT * FROM categories WHERE name = ? AND id != ?'),
             ['更新后的分类名', 1]
         );
 

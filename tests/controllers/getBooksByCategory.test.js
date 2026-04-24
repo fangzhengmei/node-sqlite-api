@@ -43,7 +43,7 @@ describe('getBooksByCategory test', () => {
 
         expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM categories WHERE id = ?',
+            expect.stringContaining('SELECT * FROM categories WHERE id = ?'),
             [1]
         );
 

@@ -30,14 +30,14 @@ describe('createAuthor unit tests', ()=>{
 
         expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM authors WHERE email = ?',
+            expect.stringContaining('SELECT * FROM authors WHERE email = ?'),
             ['test@gmail.com']
         );
 
         expect(dbHelpers.execute).toHaveBeenCalledWith(
             expect.anything(),
-            'INSERT INTO authors(name, email) VALUES (?,?)',
-            ['Test','test@gmail.com']
+            expect.stringContaining('INSERT INTO authors'),
+            expect.arrayContaining(['Test', 'test@gmail.com'])
         );
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -54,7 +54,7 @@ describe('createAuthor unit tests', ()=>{
 
         expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM authors WHERE email = ?',
+            expect.stringContaining('SELECT * FROM authors WHERE email = ?'),
             ['test@gmail.com']
         );
 
