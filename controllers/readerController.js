@@ -150,82 +150,90 @@ export const updateReader = asyncHandler(async(req,res)=>{
         error.statusCode = 400;
         throw error;
     }
-    const findReaderSQL = `
-        SELECT * FROM readers
-        WHERE id = ?
-    ` 
-    logger.info(`Attempting to retrive the reader to be updated`);
-    const foundReader = await fetchFirst(db, findReaderSQL, [id]);
-    if(!foundReader){
-        logger.warn(`Reader with id ${id} does not exist in the readers table`)
-        const error = new Error(`No such reader with id ${id} exists in the readers table`);
-        error.statusCode = 404; 
-        throw error;
-    } 
-    let updateSQL = 'UPDATE readers'
-    const params = []
-    const searchFields = []
-    if (name) {
-        searchFields.push(`name = ?`);
-        params.push(`${name}`);
-    }
-    if(email){
-        const findDuplicateSQL = `
+    
+    await runWithTransaction(db, async () => {
+        const findReaderSQL = `
             SELECT * FROM readers
-            WHERE email = ?
+            WHERE id = ?
         ` 
-        const duplicateReader = await fetchFirst(db, findDuplicateSQL, [email]);
-        if(duplicateReader && duplicateReader.id !== parseInt(id)){
-            logger.warn(`Reader with the same email ${email} already exists`);
-            const error = new Error("Reader with this email already exists");
-            error.statusCode = 409; 
+        logger.info(`Attempting to retrive the reader to be updated`);
+        const foundReader = await fetchFirst(db, findReaderSQL, [id]);
+        if(!foundReader){
+            logger.warn(`Reader with id ${id} does not exist in the readers table`)
+            const error = new Error(`No such reader with id ${id} exists in the readers table`);
+            error.statusCode = 404; 
             throw error;
+        } 
+        let updateSQL = 'UPDATE readers'
+        const params = []
+        const searchFields = []
+        if (name) {
+            searchFields.push(`name = ?`);
+            params.push(`${name}`);
         }
-        searchFields.push(`email = ?`)
-        params.push(`${email}`);
-    }
-    if(phone !== undefined){
-        searchFields.push(`phone = ?`)
-        params.push(phone || null);
-    }
-    if(address !== undefined){
-        searchFields.push(`address = ?`)
-        params.push(address || null);
-    }
-    if(searchFields.length>0){
-        updateSQL += ` SET ` + searchFields.join(', ');
-    }
-    updateSQL += ` WHERE id = ?`
-    params.push(id); 
-    logger.info(
-        `Updating reader | update fields : name=${name || "any"}, email = ${email || "any"}, phone=${phone || "any"}, address=${address || "any"}`
-    )
-    await execute(db, updateSQL, params) ;
+        if(email){
+            const findDuplicateSQL = `
+                SELECT * FROM readers
+                WHERE email = ?
+            ` 
+            const duplicateReader = await fetchFirst(db, findDuplicateSQL, [email]);
+            if(duplicateReader && duplicateReader.id !== parseInt(id)){
+                logger.warn(`Reader with the same email ${email} already exists`);
+                const error = new Error("Reader with this email already exists");
+                error.statusCode = 409; 
+                throw error;
+            }
+            searchFields.push(`email = ?`)
+            params.push(`${email}`);
+        }
+        if(phone !== undefined){
+            searchFields.push(`phone = ?`)
+            params.push(phone || null);
+        }
+        if(address !== undefined){
+            searchFields.push(`address = ?`)
+            params.push(address || null);
+        }
+        if(searchFields.length>0){
+            updateSQL += ` SET ` + searchFields.join(', ');
+        }
+        updateSQL += ` WHERE id = ?`
+        params.push(id); 
+        logger.info(
+            `Updating reader | update fields : name=${name || "any"}, email = ${email || "any"}, phone=${phone || "any"}, address=${address || "any"}`
+        )
+        await execute(db, updateSQL, params) ;
+    }, 'IMMEDIATE');
+    
     logger.info(`Reader updated successfully`);
     return res.status(200).json({msg:'Reader updated successfully'});
 })
 
 export const deleteReader = asyncHandler(async(req,res)=>{
     const {id} = req.params;
-    const findReaderSQL = `SELECT * FROM readers WHERE id = ?`;
     logger.info(`Attempting to delete reader with id ${id}`);
-    const foundReader = await fetchFirst(db, findReaderSQL, [id]);
-    if(!foundReader){
-        logger.warn(`Reader with id ${id} does not exist`)
-        const error = new Error(`No such reader with id ${id} exists`);
-        error.statusCode = 404; 
-        throw error;
-    }
-    const checkBorrowsSQL = `SELECT * FROM borrow_records WHERE reader_id = ? AND status = 'borrowed'`;
-    const activeBorrows = await fetchAll(db, checkBorrowsSQL, [id]);
-    if(activeBorrows && activeBorrows.length > 0){
-        logger.warn(`Reader with id ${id} has active borrow records`);
-        const error = new Error("Cannot delete reader with active borrow records. Please return all books first.");
-        error.statusCode = 400;
-        throw error;
-    }
-    const deleteSQL = `DELETE FROM readers WHERE id = ?`;
-    await execute(db, deleteSQL, [id]);
+    
+    await runWithTransaction(db, async () => {
+        const findReaderSQL = `SELECT * FROM readers WHERE id = ?`;
+        const foundReader = await fetchFirst(db, findReaderSQL, [id]);
+        if(!foundReader){
+            logger.warn(`Reader with id ${id} does not exist`)
+            const error = new Error(`No such reader with id ${id} exists`);
+            error.statusCode = 404; 
+            throw error;
+        }
+        const checkBorrowsSQL = `SELECT * FROM borrow_records WHERE reader_id = ? AND status = 'borrowed'`;
+        const activeBorrows = await fetchAll(db, checkBorrowsSQL, [id]);
+        if(activeBorrows && activeBorrows.length > 0){
+            logger.warn(`Reader with id ${id} has active borrow records`);
+            const error = new Error("Cannot delete reader with active borrow records. Please return all books first.");
+            error.statusCode = 400;
+            throw error;
+        }
+        const deleteSQL = `DELETE FROM readers WHERE id = ?`;
+        await execute(db, deleteSQL, [id]);
+    }, 'IMMEDIATE');
+    
     logger.info(`Reader deleted successfully`);
     return res.status(200).json({msg:'Reader deleted successfully'});
 })
