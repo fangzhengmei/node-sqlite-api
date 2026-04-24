@@ -1,6 +1,6 @@
 import { body, query, param } from 'express-validator';
 
-export const validateBorrowBook = [
+export const createBorrowValidation = [
   body('reader_id')
     .notEmpty()
     .isInt({ min: 1 })
@@ -17,16 +17,7 @@ export const validateBorrowBook = [
     .withMessage('Due date must be a valid ISO 8601 date format'),
 ];
 
-export const validateReturnBook = [
-  param('id')
-    .exists()
-    .withMessage('Borrow record ID is required')                                        
-    .isInt({ gt: 0 })
-    .withMessage('Borrow record ID must be a positive integer') 
-    .toInt(),
-];
-
-export const getAllBorrowRecordsValidator = [
+export const getBorrowsValidation = [
   query('reader_id')
     .optional()
     .isInt({ gt: 0 })
@@ -87,7 +78,16 @@ export const getAllBorrowRecordsValidator = [
     .toInt()
 ]
 
-export const getSingleBorrowRecordValidator = [
+export const getSingleBorrowValidation = [
+  param("id")
+    .exists()
+    .withMessage('Borrow record ID is required')                                        
+    .isInt({ gt: 0 })
+    .withMessage('Borrow record ID must be a positive integer') 
+    .toInt(),
+]
+
+export const returnBorrowValidation = [
   param("id")
     .exists()
     .withMessage('Borrow record ID is required')                                        

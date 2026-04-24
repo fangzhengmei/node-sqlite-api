@@ -1,44 +1,46 @@
 import { body, query, param } from 'express-validator';
 
-export const validateCreateReader = [
-  body('name')
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage('Name is required'),
-
-  body('email')
-    .notEmpty()
-    .isEmail()
-    .withMessage('Must be a valid email address'),
-
-  body('phone')
-    .optional()
-    .trim()
-    .escape()
-    .isLength({ min: 10, max: 15 })
-    .withMessage('Phone number must be between 10 and 15 characters'),
-
-  body('address')
-    .optional()
-    .trim()
-    .escape(),
-];
-
-export const getAllReadersValidator = [
-  query('name')
-    .optional()
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage('Name is required'),
+export const createReaderValidation = [
+  body("email")
+      .trim()
+      .normalizeEmail()
+      .notEmpty()
+      .isEmail()
+      .withMessage('Please enter a valid email address'),
   
-  query('email')
-    .optional()
-    .isEmail()
-    .withMessage('Must be a valid email address'),
+  body("name")
+      .trim()
+      .escape()
+      .isLength({min : 2})
+      .withMessage('Reader name must be greater than 2 characters'),
 
-  query('order')
+  body("phone")
+      .optional()
+      .trim()
+      .escape()
+      .isLength({ min: 10, max: 15 })
+      .withMessage('Phone number must be between 10 and 15 characters'),
+
+  body("address")
+      .optional()
+      .trim()
+      .escape(),
+]
+
+export const getReadersValidation = [
+    query("name")
+        .optional()
+        .trim()
+        .escape()
+        .isLength({min : 2})
+        .withMessage('Reader name must be greater than 2 characters'),
+    
+    query("email")
+        .optional()
+        .isEmail()
+        .withMessage('Please enter a valid email address'),
+    
+    query("order")
     .optional()
     .custom((order) => {
       if (!order) return true;
@@ -48,8 +50,8 @@ export const getAllReadersValidator = [
       }
       return true;
     }),
-  
-  query('sort')
+
+    query("sort")
     .optional()
     .custom((sort)=>{
       if(!sort) return true;
@@ -66,7 +68,7 @@ export const getAllReadersValidator = [
     .isInt({gt : 0})
     .withMessage('Page number must be greater than 0')
     .toInt(),
-    
+  
   query('limit')
     .optional()
     .trim()
@@ -75,44 +77,46 @@ export const getAllReadersValidator = [
     .toInt()
 ]
 
-export const getSingleReaderValidator = [
+export const getSingleReaderValidation = [
+    param("id")
+      .exists()
+      .withMessage('ID is required')                                        
+      .isInt({ gt: 0 })
+      .withMessage('ID must be a positive integer') 
+      .toInt(),
+]
+
+export const updateReaderValidation = [
   param("id")
     .exists()
     .withMessage('ID is required')                                        
     .isInt({ gt: 0 })
     .withMessage('ID must be a positive integer') 
     .toInt(),
-]
 
-export const updateReaderValidator = [
-  param('id')
-    .exists()
-    .withMessage('ID is required')                                        
-    .isInt({ gt: 0 })
-    .withMessage('ID must be a positive integer') 
-    .toInt(),
+  body("name")
+      .optional()
+      .trim()
+      .escape()
+      .isLength({min : 2})
+      .withMessage('Reader name must be greater than 2 characters'),
 
-  body('name')
-    .optional()
-    .trim()
-    .escape()
-    .notEmpty()
-    .withMessage('Name is required'),
+  body("email")
+      .optional()
+      .trim()
+      .normalizeEmail()
+      .isEmail()
+      .withMessage('Please enter a valid email address'),
 
-  body('email')
-    .optional()
-    .isEmail()
-    .withMessage('Must be a valid email address'),
+  body("phone")
+      .optional()
+      .trim()
+      .escape()
+      .isLength({ min: 10, max: 15 })
+      .withMessage('Phone number must be between 10 and 15 characters'),
 
-  body('phone')
-    .optional()
-    .trim()
-    .escape()
-    .isLength({ min: 10, max: 15 })
-    .withMessage('Phone number must be between 10 and 15 characters'),
-
-  body('address')
-    .optional()
-    .trim()
-    .escape(),
+  body("address")
+      .optional()
+      .trim()
+      .escape(),
 ]
