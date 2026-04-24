@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getAllBooksValidator, getSingleBookValidator, updateBooksValidator, validateCreateBook } from "../../validation/bookValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
+import { authenticateToken } from "../../middlewares/authMiddleware.js";
 import { createBooks, getAllBooks, getSingleBook, updateBooks } from "../../controllers/booksController.js";
 
 export const bookRouter = Router();
@@ -242,8 +243,8 @@ export const bookRouter = Router();
  *               msg: "Book with this isbn already exists, update it to something else"
  */
 
-bookRouter.post('/',validateCreateBook, validationErrorHandler, createBooks );
+bookRouter.post('/', authenticateToken, validateCreateBook, validationErrorHandler, createBooks );
 bookRouter.get('/' , getAllBooksValidator, validationErrorHandler,  getAllBooks );
 bookRouter.get('/:id' , getSingleBookValidator, validationErrorHandler,  getSingleBook );
-bookRouter.put('/:id' , updateBooksValidator, validationErrorHandler, updateBooks );
+bookRouter.put('/:id' , authenticateToken, updateBooksValidator, validationErrorHandler, updateBooks );
 

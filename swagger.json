@@ -2,13 +2,28 @@
   "swaggerDefinition": {
     "openapi": "3.0.0",
     "info": {
-      "title": "Your API Documentation",
+      "title": "Book API Documentation",
       "version": "1.0.0",
-      "description": "Documentation for your API"
+      "description": "Documentation for Book API with JWT Authentication"
     },
     "servers": [
       {
         "url": "http://localhost:3000/api"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "Enter your JWT token in the format: Bearer <token>"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": []
       }
     ]
   },

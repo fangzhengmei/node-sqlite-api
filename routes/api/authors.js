@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createAuthorValidation, getAuthorValidation, getSingleAuthorValidation } from "../../validation/authorValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
+import { authenticateToken } from "../../middlewares/authMiddleware.js";
 import { createAuthor, getAllAuthors, getSingleAuthor } from "../../controllers/authorController.js";
 
 export const authorRouter = Router();
@@ -170,7 +171,7 @@ export const authorRouter = Router();
  *               msg: "Author with the given id 99 does not exist"
  */
 
-authorRouter.post('/', createAuthorValidation, validationErrorHandler , createAuthor);
+authorRouter.post('/', authenticateToken, createAuthorValidation, validationErrorHandler , createAuthor);
 authorRouter.get('/', getAuthorValidation, validationErrorHandler , getAllAuthors);
 authorRouter.get('/:authorId', getSingleAuthorValidation, validationErrorHandler , getSingleAuthor);
 
