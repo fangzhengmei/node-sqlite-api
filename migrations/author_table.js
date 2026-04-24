@@ -5,7 +5,9 @@ db.run(`
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
-            cretated_at TEXT DEFAULT CURRENT_TIMESTAMP
+            cretated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            created_by INTEGER,
+            FOREIGN KEY (created_by) REFERENCES users(id)
         )
     `,
 (err)=>{

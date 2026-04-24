@@ -2,10 +2,12 @@ import { asyncHandler } from "../utils/asyncWrapper.js";
 import { execute, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
+import { checkBookPermission } from "../utils/permissionChecker.js";
 
 export const createBooks = asyncHandler(async(req, res)=>{
     const { title, isbn , published_year, author_id } = req.body;
-    logger.info(`Attempting to create book with unique isbn : ${isbn}`);
+    const userId = req.user.id;
+    logger.info(`User ${req.user.username} (ID: ${userId}) attempting to create book with unique isbn : ${isbn}`);
     const checksDuplicacySQL = `
         SELECT * FROM books
         WHERE isbn = ?
@@ -29,11 +31,11 @@ export const createBooks = asyncHandler(async(req, res)=>{
         throw error;
     }
     const sql = `INSERT INTO books
-    (title, isbn, published_year, author_id)
+    (title, isbn, published_year, author_id, created_by)
     VALUES
-    (?,?,?,?)`
-    await execute(db, sql, [title, isbn, published_year, author_id]);
-    logger.info(`Book created successfully, title : ${title} ISBN: ${isbn}`);
+    (?,?,?,?,?)`
+    await execute(db, sql, [title, isbn, published_year, author_id, userId]);
+    logger.info(`Book created successfully by user ${userId}, title : ${title} ISBN: ${isbn}`);
     return res.status(200).json({msg:'Book created successfully'});
 });
 
@@ -113,24 +115,27 @@ export const getSingleBook = asyncHandler(async(req,res)=>{
 export const updateBooks = asyncHandler(async(req,res)=>{
     const {id} = req.params;
     const { title, isbn , published_year, author_id} = req.body;
+    
+    const permissionCheck = await checkBookPermission(id, req.user);
+    if (!permissionCheck.allowed) {
+        if (permissionCheck.error === 'Book not found') {
+            logger.warn(`Book with id ${id} does not exist in the books table`);
+            const error = new Error(`No such book with id ${id} exists in the books table`);
+            error.statusCode = 404;
+            throw error;
+        }
+        const error = new Error("Access denied. You can only modify books you created or have admin privileges.");
+        error.statusCode = 403;
+        throw error;
+    }
+
     if (!title && !isbn && !published_year && !author_id) {
         logger.warn(`At least one of the fields from title, isbn, published_year or author_id must be provided for updation`)
         const error = new Error("At least one field must be provided to update");
         error.statusCode = 400;
         throw error;
     }
-    const findBookSQL = `
-        SELECT * FROM books
-        WHERE id = ?
-    ` 
-    logger.info(`Attempting to retrive the book to be updated`);
-    const foundBook = await fetchFirst(db, findBookSQL, [id]);
-    if(!foundBook){
-        logger.warn(`Book with id ${id} does not exist in the books table`)
-        const error = new Error(`No such book with id ${id} exists in the books table`);
-        error.statusCode = 400; 
-        throw error;
-    } 
+
     let updateSQL = 'UPDATE books'
     const params = []
     const searchFields = []
@@ -167,9 +172,32 @@ export const updateBooks = asyncHandler(async(req,res)=>{
     updateSQL += ` WHERE id = ?`
     params.push(id); 
     logger.info(
-        `Updating books | update fields : title=${title || "any"}, isbn = ${isbn || "any"}, published_year=${published_year || "any"}, author_id=${author_id || "any"}`
+        `User ${req.user.username} (ID: ${req.user.id}) updating book ${id} | update fields : title=${title || "any"}, isbn = ${isbn || "any"}, published_year=${published_year || "any"}, author_id=${author_id || "any"}`
     )
     await execute(db, updateSQL, params) ;
-    logger.info(`Book updated successfully`);
+    logger.info(`Book ${id} updated successfully by user ${req.user.id}`);
     return res.status(200).json({msg:'Book updated successfully'});
+})
+
+export const deleteBook = asyncHandler(async(req,res)=>{
+    const {id} = req.params;
+    
+    const permissionCheck = await checkBookPermission(id, req.user);
+    if (!permissionCheck.allowed) {
+        if (permissionCheck.error === 'Book not found') {
+            logger.warn(`Book with id ${id} does not exist in the books table`);
+            const error = new Error(`No such book with id ${id} exists in the books table`);
+            error.statusCode = 404;
+            throw error;
+        }
+        const error = new Error("Access denied. You can only delete books you created or have admin privileges.");
+        error.statusCode = 403;
+        throw error;
+    }
+
+    const deleteSQL = `DELETE FROM books WHERE id = ?`;
+    await execute(db, deleteSQL, [id]);
+    
+    logger.info(`Book ${id} deleted successfully by user ${req.user.username} (ID: ${req.user.id})`);
+    return res.status(200).json({msg:'Book deleted successfully'});
 })

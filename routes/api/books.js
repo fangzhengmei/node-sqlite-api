@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getAllBooksValidator, getSingleBookValidator, updateBooksValidator, validateCreateBook } from "../../validation/bookValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
 import { authenticateToken } from "../../middlewares/authMiddleware.js";
-import { createBooks, getAllBooks, getSingleBook, updateBooks } from "../../controllers/booksController.js";
+import { createBooks, getAllBooks, getSingleBook, updateBooks, deleteBook } from "../../controllers/booksController.js";
 
 export const bookRouter = Router();
 
@@ -241,10 +241,44 @@ export const bookRouter = Router();
  *           application/json:
  *             example:
  *               msg: "Book with this isbn already exists, update it to something else"
+ *   delete:
+ *     summary: Delete a book by ID
+ *     description: Delete a book from the database. Only the creator or admin can delete.
+ *     tags: [Books]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the book to delete
+ *     responses:
+ *       200:
+ *         description: Book deleted successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Book deleted successfully"
+ *       403:
+ *         description: Access denied - Not the creator or admin
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Access denied. You can only delete books you created or have admin privileges."
+ *       404:
+ *         description: Book not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "No such book with id 99 exists in the books table"
  */
 
 bookRouter.post('/', authenticateToken, validateCreateBook, validationErrorHandler, createBooks );
 bookRouter.get('/' , getAllBooksValidator, validationErrorHandler,  getAllBooks );
 bookRouter.get('/:id' , getSingleBookValidator, validationErrorHandler,  getSingleBook );
 bookRouter.put('/:id' , authenticateToken, updateBooksValidator, validationErrorHandler, updateBooks );
+bookRouter.delete('/:id' , authenticateToken, getSingleBookValidator, validationErrorHandler, deleteBook );
 

@@ -15,6 +15,29 @@ export const createAuthorValidation = [
       .withMessage('Author name must be greater than 2 characters')
 ]
 
+export const updateAuthorValidation = [
+  param("authorId")
+      .exists()
+      .withMessage('Author ID is required')
+      .isInt({ gt: 0 })
+      .withMessage('Author ID must be a positive integer')
+      .toInt(),
+
+  body("email")
+      .optional()
+      .trim()
+      .normalizeEmail()
+      .isEmail()
+      .withMessage('Please enter a valid email address'),
+  
+  body("name")
+      .optional()
+      .trim()
+      .escape()
+      .isLength({min : 2})
+      .withMessage('Author name must be greater than 2 characters')
+]
+
 export const getAuthorValidation = [
     query("name")
         .optional()

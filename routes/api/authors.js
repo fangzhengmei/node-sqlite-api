@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createAuthorValidation, getAuthorValidation, getSingleAuthorValidation } from "../../validation/authorValidator.js";
+import { createAuthorValidation, getAuthorValidation, getSingleAuthorValidation, updateAuthorValidation } from "../../validation/authorValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
 import { authenticateToken } from "../../middlewares/authMiddleware.js";
-import { createAuthor, getAllAuthors, getSingleAuthor } from "../../controllers/authorController.js";
+import { createAuthor, getAllAuthors, getSingleAuthor, updateAuthor, deleteAuthor } from "../../controllers/authorController.js";
 
 export const authorRouter = Router();
 
@@ -169,9 +169,112 @@ export const authorRouter = Router();
  *           application/json:
  *             example:
  *               msg: "Author with the given id 99 does not exist"
+ *   put:
+ *     summary: Update an author by ID
+ *     description: Update an author's information. Only the creator or admin can update.
+ *     tags: [Authors]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: authorId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the author to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "New Author Name"
+ *                 description: The new name of the author
+ *               email:
+ *                 type: string
+ *                 example: "newemail@example.com"
+ *                 description: The new email of the author
+ *             minProperties: 1
+ *             description: At least one field is required for update
+ *     responses:
+ *       200:
+ *         description: Author updated successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Author updated successfully"
+ *       400:
+ *         description: No fields provided or author has books
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "At least one field must be provided to update"
+ *       403:
+ *         description: Access denied - Not the creator or admin
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Access denied. You can only modify authors you created or have admin privileges."
+ *       404:
+ *         description: Author not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "No such author with id 99 exists in the authors table"
+ *       409:
+ *         description: Email already exists
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Author with this email already exists"
+ *   delete:
+ *     summary: Delete an author by ID
+ *     description: Delete an author from the database. Only the creator or admin can delete. Authors with books cannot be deleted.
+ *     tags: [Authors]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: authorId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the author to delete
+ *     responses:
+ *       200:
+ *         description: Author deleted successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Author deleted successfully"
+ *       400:
+ *         description: Author has books
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Cannot delete author: they have 2 book(s). Please delete the books first."
+ *       403:
+ *         description: Access denied - Not the creator or admin
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "Access denied. You can only delete authors you created or have admin privileges."
+ *       404:
+ *         description: Author not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "No such author with id 99 exists in the authors table"
  */
 
 authorRouter.post('/', authenticateToken, createAuthorValidation, validationErrorHandler , createAuthor);
 authorRouter.get('/', getAuthorValidation, validationErrorHandler , getAllAuthors);
 authorRouter.get('/:authorId', getSingleAuthorValidation, validationErrorHandler , getSingleAuthor);
+authorRouter.put('/:authorId', authenticateToken, updateAuthorValidation, validationErrorHandler, updateAuthor);
+authorRouter.delete('/:authorId', authenticateToken, getSingleAuthorValidation, validationErrorHandler, deleteAuthor);
 

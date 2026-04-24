@@ -8,7 +8,9 @@ db.run(`
             published_year INTEGER NOT NULL,
             author_id INTEGER NOT NULL,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (author_id) REFERENCES authors(id)
+            created_by INTEGER,
+            FOREIGN KEY (author_id) REFERENCES authors(id),
+            FOREIGN KEY (created_by) REFERENCES users(id)
         )
     `,
 (err)=>{
