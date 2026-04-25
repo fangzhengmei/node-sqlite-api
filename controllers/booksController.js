@@ -49,21 +49,16 @@ export const getAllBooks = asyncHandler(async(req, res)=>{
     ON books.author_id = authors.id`;
     const params = [];
     const searchFields = [];
-    if(title && year){
-        sql += ` WHERE books.title LIKE ? AND books.published_year = ?`; 
-        params.push(`%${title}%`);
-        params.push(`${year}`);
-    }
     if (title) {
-        searchFields.push(`books.title LIKE ?`);
+        searchFields.push(`LOWER(books.title) LIKE LOWER(?)`);
         params.push(`%${title}%`);
     }
     if(year){
         searchFields.push(`books.published_year = ?`)
-        params.push(`${year}`);
+        params.push(year);
     }
     if(author){
-        searchFields.push(`authors.name LIKE ?`)
+        searchFields.push(`LOWER(authors.name) LIKE LOWER(?)`)
         params.push(`%${author}%`);
     }
     if(searchFields.length>0){
