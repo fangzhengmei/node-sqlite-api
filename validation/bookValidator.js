@@ -53,9 +53,9 @@ export const getAllBooksValidator = [
     .optional()
     .custom((sort)=>{
       if(!sort) return true;
-      const allowedFields = ['title','published_year','created_at'];
+      const allowedFields = ['title','published_year','created_at','average_rating','total_ratings'];
       if(!allowedFields.includes(sort)){
-        throw new Error('Sorting can only be done by one of the fields from : title, published_year or created_at')
+        throw new Error('Sorting can only be done by one of the fields from : title, published_year, created_at, average_rating or total_ratings')
       }
       return true;
     }),

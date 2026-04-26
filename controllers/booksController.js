@@ -44,9 +44,16 @@ export const getAllBooks = asyncHandler(async(req, res)=>{
     const startIndex  = (page -1 ) * limit;
 
     order = order && order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC'; 
-    let sql = `SELECT books.*,authors.name AS author FROM books
+    let sql = `SELECT 
+        books.*,
+        authors.name AS author,
+        AVG(ratings.rating) as average_rating,
+        COUNT(ratings.id) as total_ratings
+    FROM books
     JOIN authors 
-    ON books.author_id = authors.id`;
+    ON books.author_id = authors.id
+    LEFT JOIN ratings 
+    ON books.id = ratings.book_id`;
     const params = [];
     const searchFields = [];
     if(title && year){
@@ -69,7 +76,8 @@ export const getAllBooks = asyncHandler(async(req, res)=>{
     if(searchFields.length>0){
         sql+= ` WHERE ` + searchFields.join(' AND ');
     }
-    const sortBy = ["title", "published_year", "created_at"];
+    sql += ` GROUP BY books.id`;
+    const sortBy = ["title", "published_year", "created_at", "average_rating", "total_ratings"];
     if (sort && sortBy.includes(sort)) {
         sql += ` ORDER BY ${sort} ${order}`;
     }
@@ -84,8 +92,13 @@ export const getAllBooks = asyncHandler(async(req, res)=>{
         logger.warn("No books found for the given filters");
         return res.status(204).json({msg:"No any books in the list yet"});
     }
-    logger.info(`Books retrived successfully | counts = ${books.length}`)
-    return res.status(200).json({msg:'books retreiveed sucessfully', data : books});
+    const booksWithRatingStats = books.map(book => ({
+        ...book,
+        average_rating: book.average_rating ? parseFloat(book.average_rating).toFixed(1) : null,
+        total_ratings: book.total_ratings || 0
+    }));
+    logger.info(`Books retrived successfully | counts = ${booksWithRatingStats.length}`)
+    return res.status(200).json({msg:'books retreiveed sucessfully', data : booksWithRatingStats});
 })
 
 export const getSingleBook = asyncHandler(async(req,res)=>{
@@ -93,10 +106,14 @@ export const getSingleBook = asyncHandler(async(req,res)=>{
     const findBookSQL = `
         SELECT 
         authors.id AS author_id,authors.name, authors.email, authors.cretated_at AS author_created_at,
-        books.id AS book_id,books.title,books.isbn,books.published_year,books.created_at AS book_created_at
+        books.id AS book_id,books.title,books.isbn,books.published_year,books.created_at AS book_created_at,
+        AVG(ratings.rating) as average_rating,
+        COUNT(ratings.id) as total_ratings
         FROM authors
         JOIN books ON authors.id = books.author_id
-        WHERE authors.id = ?
+        LEFT JOIN ratings ON books.id = ratings.book_id
+        WHERE books.id = ?
+        GROUP BY books.id
     `;
     logger.info(`Attempting to retrieve book and book author info for book with id ${id}`);
     const book = await fetchFirst(db, findBookSQL, [id]);
@@ -106,8 +123,13 @@ export const getSingleBook = asyncHandler(async(req,res)=>{
         error.statusCode = 404; 
         throw error;
     }
+    const bookWithRatingStats = {
+        ...book,
+        average_rating: book.average_rating ? parseFloat(book.average_rating).toFixed(1) : null,
+        total_ratings: book.total_ratings || 0
+    };
     logger.info(`Book retrieved successfully`);
-    return res.status(200).json({msg:'book retreived sucessfully', data : book});
+    return res.status(200).json({msg:'book retreived sucessfully', data : bookWithRatingStats});
 })
 
 export const updateBooks = asyncHandler(async(req,res)=>{
