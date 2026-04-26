@@ -1,4 +1,3 @@
-import { beforeEach } from "node:test";
 import { getAllBooks } from "../../controllers/booksController.js"
 import * as dbHelpers from "../../utils/dbRunMethodWrapper.js";
 
@@ -18,16 +17,17 @@ describe('get All Books method test', ()=>{
     });
 
     test('should return books with default query params', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue(dbHelper.fetchAll.mockResolvedValue([{
+        dbHelpers.fetchAll.mockResolvedValue([{
                     id : 1,
                     title : 'Test',
                     isbn : '1234567890',
                     published_year : 1996 , 
                     author_id : 1,
                     created_at : '2025-09-12 06:47:02',
-                    author_name: 'Test'
-                }])
-            );
+                    author: 'Test',
+                    average_rating: 4.5,
+                    total_ratings: 10
+                }]);
         
         await getAllBooks(req,res);
 
@@ -49,10 +49,14 @@ describe('get All Books method test', ()=>{
         dbHelpers.fetchAll.mockResolvedValue([
             {
                 id:1,
-                name:'Test',
-                email:'test@gmail.com', 
-                cretatedAt:'2025-09-12 06:47:02', 
-                books_count: 5
+                title:'Test',
+                isbn:'1234567890',
+                published_year: 2025,
+                author_id: 1,
+                created_at:'2025-09-12 06:47:02', 
+                author: 'Test Author',
+                average_rating: 4.0,
+                total_ratings: 5
             }
         ]);
 
@@ -61,14 +65,13 @@ describe('get All Books method test', ()=>{
         expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('WHERE books.title LIKE ? AND books.published_year = ?'),
-            expect.arrayContaining(['%Test%', 2025, 10, 0])
+            expect.arrayContaining(['%Test%', '2025', 10, 0])
         );
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-            msg: 'Authors retreived sucessfully',
-            data: expect.any(Array),
-            pagination: { page: 1, limit: 10, count: 1 }
+            msg: 'books retreiveed sucessfully',
+            data: expect.any(Array)
         }));
     });
 

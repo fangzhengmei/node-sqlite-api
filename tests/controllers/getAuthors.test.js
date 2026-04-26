@@ -1,10 +1,9 @@
-import { beforeEach } from "node:test";
 import { getAllAuthors } from "../../controllers/authorController.js";
 import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
 
-describe('get All authors unit test', async ()=>{
+describe('get All authors unit test', ()=>{
     let req;
     let res;
 
