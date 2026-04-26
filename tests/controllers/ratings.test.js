@@ -92,6 +92,128 @@ describe('Rating Controller Tests', () => {
 
             await expect(createRating(req, res)).rejects.toThrow('No such book with id 999 exists');
         });
+
+        test('should reject rating of 0', async () => {
+            req.body = {
+                book_id: 1,
+                rating: 0
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Rating must be an integer between 1 and 5');
+        });
+
+        test('should reject rating of 6', async () => {
+            req.body = {
+                book_id: 1,
+                rating: 6
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Rating must be an integer between 1 and 5');
+        });
+
+        test('should reject decimal rating (1.5)', async () => {
+            req.body = {
+                book_id: 1,
+                rating: 1.5
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Rating must be an integer between 1 and 5');
+        });
+
+        test('should reject negative rating (-1)', async () => {
+            req.body = {
+                book_id: 1,
+                rating: -1
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Rating must be an integer between 1 and 5');
+        });
+
+        test('should reject comment exceeding 1000 characters', async () => {
+            const longComment = 'a'.repeat(1001);
+            req.body = {
+                book_id: 1,
+                rating: 5,
+                comment: longComment
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Comment cannot exceed 1000 characters');
+        });
+
+        test('should accept comment with exactly 1000 characters', async () => {
+            const validComment = 'a'.repeat(1000);
+            req.body = {
+                book_id: 1,
+                rating: 5,
+                comment: validComment
+            };
+
+            dbHelpers.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book' });
+            dbHelpers.execute.mockResolvedValue();
+
+            await createRating(req, res);
+
+            expect(dbHelpers.execute).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.stringContaining('INSERT INTO ratings'),
+                [1, 5, validComment, null]
+            );
+            expect(res.status).toHaveBeenCalledWith(201);
+        });
+
+        test('should reject reader_name exceeding 100 characters', async () => {
+            const longName = 'a'.repeat(101);
+            req.body = {
+                book_id: 1,
+                rating: 5,
+                reader_name: longName
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Reader name cannot exceed 100 characters');
+        });
+
+        test('should reject when book_id is missing', async () => {
+            req.body = {
+                rating: 5
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Book ID is required');
+        });
+
+        test('should reject when rating is missing', async () => {
+            req.body = {
+                book_id: 1
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Rating is required');
+        });
+
+        test('should reject book_id of 0', async () => {
+            req.body = {
+                book_id: 0,
+                rating: 5
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Book ID must be a positive integer');
+        });
+
+        test('should reject negative book_id', async () => {
+            req.body = {
+                book_id: -1,
+                rating: 5
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Book ID must be a positive integer');
+        });
+
+        test('should reject decimal book_id', async () => {
+            req.body = {
+                book_id: 1.5,
+                rating: 5
+            };
+
+            await expect(createRating(req, res)).rejects.toThrow('Book ID must be a positive integer');
+        });
     });
 
     describe('getRatingsByBookId', () => {

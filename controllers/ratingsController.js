@@ -6,6 +6,40 @@ import { logger } from "../logger/logger.js";
 export const createRating = asyncHandler(async(req, res)=>{
     const { book_id, rating, comment, reader_name } = req.body;
     logger.info(`Attempting to create rating for book with id : ${book_id}`);
+
+    if (book_id === undefined || book_id === null) {
+        const error = new Error('Book ID is required');
+        error.statusCode = 400;
+        throw error;
+    }
+    if (!Number.isInteger(book_id) || book_id < 1) {
+        const error = new Error('Book ID must be a positive integer');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (rating === undefined || rating === null) {
+        const error = new Error('Rating is required');
+        error.statusCode = 400;
+        throw error;
+    }
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        const error = new Error('Rating must be an integer between 1 and 5');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (comment !== undefined && comment !== null && typeof comment === 'string' && comment.length > 1000) {
+        const error = new Error('Comment cannot exceed 1000 characters');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (reader_name !== undefined && reader_name !== null && typeof reader_name === 'string' && reader_name.length > 100) {
+        const error = new Error('Reader name cannot exceed 100 characters');
+        error.statusCode = 400;
+        throw error;
+    }
     
     const checkBookSQL = `
         SELECT * FROM books
