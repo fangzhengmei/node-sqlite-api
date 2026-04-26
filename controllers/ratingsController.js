@@ -65,8 +65,31 @@ export const createRating = asyncHandler(async(req, res)=>{
 export const getRatingsByBookId = asyncHandler(async(req, res)=>{
     const { book_id } = req.params;
     let { page, limit } = req.query;
-    page = parseInt(page) > 0 ? parseInt(page) : 1;
-    limit = parseInt(limit) > 0 ? parseInt(limit) : 10;
+
+    if (page !== undefined && page !== null && page !== '') {
+        const pageNum = parseInt(page);
+        if (isNaN(pageNum) || !Number.isInteger(pageNum) || pageNum < 1) {
+            const error = new Error('Page number must be greater than 0');
+            error.statusCode = 400;
+            throw error;
+        }
+        page = pageNum;
+    } else {
+        page = 1;
+    }
+
+    if (limit !== undefined && limit !== null && limit !== '') {
+        const limitNum = parseInt(limit);
+        if (isNaN(limitNum) || !Number.isInteger(limitNum) || limitNum < 1) {
+            const error = new Error('Limit must be greater than 0');
+            error.statusCode = 400;
+            throw error;
+        }
+        limit = limitNum;
+    } else {
+        limit = 10;
+    }
+
     const startIndex  = (page - 1) * limit;
 
     logger.info(`Fetching ratings for book id: ${book_id}, page: ${page}, limit: ${limit}`);

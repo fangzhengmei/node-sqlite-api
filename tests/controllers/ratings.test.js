@@ -281,5 +281,47 @@ describe('Rating Controller Tests', () => {
 
             await expect(getRatingsByBookId(req, res)).rejects.toThrow('No such book with id 999 exists');
         });
+
+        test('should reject page of -1', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: '-1', limit: '10' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Page number must be greater than 0');
+        });
+
+        test('should reject page of 0', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: '0', limit: '10' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Page number must be greater than 0');
+        });
+
+        test('should reject page as non-numeric string', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: 'abc', limit: '10' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Page number must be greater than 0');
+        });
+
+        test('should reject limit of 0', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: '1', limit: '0' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Limit must be greater than 0');
+        });
+
+        test('should reject negative limit', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: '1', limit: '-5' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Limit must be greater than 0');
+        });
+
+        test('should reject limit as non-numeric string', async () => {
+            req.params = { book_id: 1 };
+            req.query = { page: '1', limit: 'abc' };
+
+            await expect(getRatingsByBookId(req, res)).rejects.toThrow('Limit must be greater than 0');
+        });
     });
 });
