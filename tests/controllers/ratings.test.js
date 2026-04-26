@@ -1,15 +1,30 @@
-import { createRating, getRatingsByBookId } from "../../controllers/ratingsController.js"
-import * as dbHelpers from "../../utils/dbRunMethodWrapper.js";
+import { jest } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
+  fetchAll: jest.fn(),
+  fetchFirst: jest.fn(),
+  execute: jest.fn()
+}));
 
 describe('Rating Controller Tests', () => {
     let req;
     let res;
+    let createRating;
+    let getRatingsByBookId;
+    let dbHelpers;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        const ratingsController = await import('../../controllers/ratingsController.js');
+        createRating = ratingsController.createRating;
+        getRatingsByBookId = ratingsController.getRatingsByBookId;
+        
+        const dbRunMethodWrapper = await import('../../utils/dbRunMethodWrapper.js');
+        dbHelpers = dbRunMethodWrapper;
+        
         jest.clearAllMocks();
-        req = { 
+        req = {
             query: {},
             body: {},
             params: {}

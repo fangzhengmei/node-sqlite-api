@@ -153,7 +153,7 @@ export const updateBooks = asyncHandler(async(req,res)=>{
     const searchFields = []
     if (title) {
         searchFields.push(`title = ?`);
-        params.push(`${title}`);
+        params.push(title);
     }
     if(isbn){
         const findDuplicateSQL = `
@@ -168,15 +168,15 @@ export const updateBooks = asyncHandler(async(req,res)=>{
             throw error;
         }
         searchFields.push(`isbn = ?`)
-        params.push(`${isbn}`);
+        params.push(isbn);
     }
     if(published_year){
         searchFields.push(`published_year = ?`)
-        params.push(`${published_year}`);
+        params.push(published_year);
     }
     if(author_id){
         searchFields.push(`author_id = ?`)
-        params.push(`${author_id}`);
+        params.push(author_id);
     }
     if(searchFields.length>0){
         updateSQL += ` SET ` + searchFields.join(', ');
