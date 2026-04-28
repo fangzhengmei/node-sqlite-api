@@ -35,14 +35,15 @@ describe('update books controller method test',()=>{
         expect(dbHelper.execute).not.toHaveBeenCalled();
     })
 
-    test('should throw 409 if ISBN already exists', async () => {
+    test('should throw 409 if ISBN already exists for another book', async () => {
         req = {
-        body: { isbn: '1234567890' }
+        body: { isbn: '1234567890' },
+        params: { id: 1 }
         };
-        //to find boo upon the furst call
-        dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title' });
-        //to simulate a duplicate book found
-        dbHelper.fetchFirst.mockResolvedValueOnce({ id: 2, title: 'Another Book' });
+        // First call: find the book by id
+        dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title', isbn: '0987654321' });
+        // Second call: check duplicate ISBN - found another book with same ISBN
+        dbHelper.fetchFirst.mockResolvedValueOnce({ id: 2, title: 'Another Book', isbn: '1234567890' });
 
         await expect(updateBooks(req, res)).rejects.toMatchObject({
         message: 'Book with this isbn already exists, update it to something else',
@@ -52,9 +53,33 @@ describe('update books controller method test',()=>{
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });
 
+    test('should not throw 409 when updating without changing ISBN', async () => {
+        req = {
+            body: { title: 'New Title', isbn: '1234567890' },
+            params: { id: 1 }
+        };
+        // First call: find the book by id (same ISBN as being updated)
+        dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title', isbn: '1234567890' });
+        // Second call: check duplicate ISBN - no other book has this ISBN (returns null)
+        dbHelper.fetchFirst.mockResolvedValueOnce(null);
+        dbHelper.execute.mockResolvedValue();
+
+        await updateBooks(req, res);
+
+        expect(dbHelper.execute).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.stringContaining('UPDATE books SET title = ?, isbn = ? WHERE id = ?'),
+            ['New Title', '1234567890', 1]
+        );
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
+    });
+
     test('should update multiple fields successfully', async()=>{
-        dbHelper.fetchFirst.mockResolvedValue({id: 1, title: 'Old Title', isbn: '1234567999'});
-        dbHelper.fetchFirst.mockResolvedValue(null);
+        // First call: find the book by id
+        dbHelper.fetchFirst.mockResolvedValueOnce({id: 1, title: 'Old Title', isbn: '1234567999'});
+        // Second call: check duplicate ISBN - no other book has this ISBN
+        dbHelper.fetchFirst.mockResolvedValueOnce(null);
         dbHelper.execute.mockResolvedValue();
 
         await updateBooks(req,res);
@@ -65,6 +90,6 @@ describe('update books controller method test',()=>{
             ['Test', '1234567890', 1996, 1, 1]
         );
         expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
     })
 })
