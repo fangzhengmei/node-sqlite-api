@@ -5,7 +5,7 @@ export const validationErrorHandler = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const validationErrors = errors.array().map(err => ({
-            field: err.param,
+            field: err.path,
             message: err.msg,
             value: err.value
         }));
