@@ -1,13 +1,10 @@
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
+const dbPath = path.resolve(process.cwd(), "data/app.db");
 
-const dbPath =  path.resolve(__dirname, "../data/app.db");
+const require = createRequire(path.resolve(process.cwd(), "index.js"));
 
 let dbInstance = null;
 let sqlite3 = null;
