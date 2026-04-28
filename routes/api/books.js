@@ -92,6 +92,20 @@ export const bookRouter = Router();
  *           application/json:
  *             example:
  *               msg: "No any books in the list yet"
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "year"
+ *                   message: "Published year must be a 4-digit number representing a valid year"
+ *                   value: "invalid"
+ *                 - field: "page"
+ *                   message: "Page number must be greater than 0"
+ *                   value: -1
  * 
  *   post:
  *     summary: Create a new book
@@ -134,12 +148,40 @@ export const bookRouter = Router();
  *           application/json:
  *             example: 
  *               msg: Book created successfully
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "title"
+ *                   message: "Title is required"
+ *                   value: ""
+ *                 - field: "isbn"
+ *                   message: "ISBN must be exactly 10 digits"
+ *                   value: "123"
+ *                 - field: "published_year"
+ *                   message: "Published year must be a 4-digit number representing a valid year"
+ *                   value: 500
+ *                 - field: "author_id"
+ *                   message: "Author ID must be a positive integer"
+ *                   value: -1
+ *       404:
+ *         description: Author not found
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Author with id 99 not found"
  *       409: 
- *         description: Author with this email already exists
+ *         description: Duplicate ISBN
  *         content: 
  *           application/json:
  *             example: 
- *               msg: Book with this isbn already exists
+ *               status: "error"
+ *               message: "Book with this ISBN already exists"
  */
 
 /**
@@ -174,12 +216,24 @@ export const bookRouter = Router();
  *                 isbn: 1234567890
  *                 published_year: 2026
  *                 book_created_at: "2025-09-12T06:47:02Z"
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "id"
+ *                   message: "ID must be a positive integer"
+ *                   value: "abc"
  *       404:
  *         description: Book not found
  *         content:
  *           application/json:
  *             example:
- *               msg: "No book with  id 99 exists in the books table"
+ *               status: "error"
+ *               message: "Book with id 99 not found"
  *   put:
  *     summary: Update a book by ID
  *     description: Update one or more fields of a book in the database. At least one field must be provided.
@@ -225,26 +279,52 @@ export const bookRouter = Router();
  *             example:
  *               msg: "Book updated successfully"
  *       400:
- *         description: Book not found or no fields provided
+ *         description: Validation error or no fields provided
+ *         content:
+ *           application/json:
+ *             examples:
+ *               validationError:
+ *                 summary: Input validation failed
+ *                 value:
+ *                   status: "error"
+ *                   message: "Validation failed"
+ *                   errors:
+ *                     - field: "id"
+ *                       message: "ID must be a positive integer"
+ *                       value: "abc"
+ *                     - field: "isbn"
+ *                       message: "ISBN must be exactly 10 digits"
+ *                       value: "123"
+ *               noFieldsProvided:
+ *                 summary: No fields provided for update
+ *                 value:
+ *                   status: "error"
+ *                   message: "At least one field must be provided to update"
+ *       404:
+ *         description: Book or author not found
  *         content:
  *           application/json:
  *             examples:
  *               bookNotFound:
+ *                 summary: Book not found
  *                 value:
- *                   msg: "No such book with id 99 exists in the books table"
- *               noFieldsProvided:
+ *                   status: "error"
+ *                   message: "Book with id 99 not found"
+ *               authorNotFound:
+ *                 summary: Author not found
  *                 value:
- *                   msg: "At least one field must be provided to update"
+ *                   status: "error"
+ *                   message: "Author with id 99 not found"
  *       409:
  *         description: Duplicate ISBN
  *         content:
  *           application/json:
  *             example:
- *               msg: "Book with this isbn already exists, update it to something else"
+ *               status: "error"
+ *               message: "Book with this ISBN already exists"
  */
 
 bookRouter.post('/', validateCreateBook, validationErrorHandler, checkIsbnDuplicate, checkAuthorExists, createBooks);
 bookRouter.get('/' , getAllBooksValidator, validationErrorHandler, getAllBooks);
 bookRouter.get('/:id' , getSingleBookValidator, validationErrorHandler, checkBookExists, getSingleBook);
 bookRouter.put('/:id' , updateBooksValidator, validationErrorHandler, checkBookExists, checkAtLeastOneField, checkIsbnDuplicate, checkAuthorExists, updateBooks);
-

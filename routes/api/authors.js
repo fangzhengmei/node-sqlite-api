@@ -83,6 +83,27 @@ export const authorRouter = Router();
  *                       example: 2
  *       204: 
  *         description: No authors found
+ *         content:
+ *           application/json:
+ *             example:
+ *               msg: "No any authors in the list yet"
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "name"
+ *                   message: "Author name must be greater than 2 characters"
+ *                   value: "A"
+ *                 - field: "page"
+ *                   message: "Page number must be greater than 0"
+ *                   value: -1
+ *                 - field: "limit"
+ *                   message: "Limit must be greater than 0"
+ *                   value: 0
  * 
  *   post:
  *     summary: Create a new author
@@ -117,12 +138,27 @@ export const authorRouter = Router();
  *           application/json:
  *             example: 
  *               msg: Author created successfully
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "name"
+ *                   message: "Author name must be greater than 2 characters"
+ *                   value: "A"
+ *                 - field: "email"
+ *                   message: "Please enter a valid email address"
+ *                   value: "invalid-email"
  *       409: 
  *         description: Author with this email already exists
  *         content: 
  *           application/json:
  *             example: 
- *               msg: Author with this email already exists
+ *               status: "error"
+ *               message: "Author with this email already exists"
  */
 
 /**
@@ -163,15 +199,26 @@ export const authorRouter = Router();
  *                     isbn: "0987654321"
  *                     published_year: 1998
  *                     created_at: "2025-09-13T06:47:02Z"
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "error"
+ *               message: "Validation failed"
+ *               errors:
+ *                 - field: "authorId"
+ *                   message: "ID must be a positive integer"
+ *                   value: "abc"
  *       404:
  *         description: Author not found
  *         content:
  *           application/json:
  *             example:
- *               msg: "Author with the given id 99 does not exist"
+ *               status: "error"
+ *               message: "Author with id 99 not found"
  */
 
 authorRouter.post('/', createAuthorValidation, validationErrorHandler, checkEmailDuplicate, createAuthor);
 authorRouter.get('/', getAuthorValidation, validationErrorHandler, getAllAuthors);
 authorRouter.get('/:authorId', getSingleAuthorValidation, validationErrorHandler, checkAuthorExistsById, getSingleAuthor);
-
