@@ -316,7 +316,7 @@ export const bookRouter = Router();
  *                   status: "error"
  *                   message: "Author with id 99 not found"
  *       409:
- *         description: Duplicate ISBN
+ *         description: ISBN already exists (used by another book)
  *         content:
  *           application/json:
  *             example:
