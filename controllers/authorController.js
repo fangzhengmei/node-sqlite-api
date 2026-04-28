@@ -1,5 +1,6 @@
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import {execute, fetchAll, fetchFirst} from "../utils/dbRunMethodWrapper.js";
+import { buildPagination, buildOrderBy, buildWhereClause } from "../utils/queryBuilder.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
 
@@ -21,28 +22,39 @@ export const createAuthor = asyncHandler(async(req , res) =>{
 });
 
 export const getAllAuthors = asyncHandler(async(req,res)=>{
-    let {name , order , page, limit} = req.query;
-    order = order && order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
-    page = parseInt(page) > 0 ? parseInt(page) : 1;
-    limit = parseInt(limit) > 0 ? parseInt(limit) : 10;
-    const startIndex  = (page -1 ) * limit;
+    const {name , order , page, limit} = req.query;
+    
+    const pagination = buildPagination(page, limit);
+    const orderBy = buildOrderBy(order);
     
     let sql = `
         SELECT authors.*, COUNT(books.id) AS books_count FROM authors 
         LEFT JOIN books
         ON authors.id = books.author_id
     `
-    const params = []
-    if(name){
-        sql+= ` WHERE authors.name LIKE ?`;
-        params.push(`%${name}%`)
-    };
+    
+    const conditions = [];
+    if (name) {
+        conditions.push({
+            field: `authors.name LIKE ?`,
+            value: `%${name}%`
+        });
+    }
+    
+    const whereClause = buildWhereClause(conditions);
+    const params = [...whereClause.params];
+    
+    if (whereClause.whereClause) {
+        sql += ` ${whereClause.whereClause}`;
+    }
+    
     sql += ` GROUP BY authors.id`;
-    sql += ` ORDER BY books_count ${order}`;
-    sql += ` LIMIT ? OFFSET ?`
-    params.push(limit, startIndex);
+    sql += ` ORDER BY books_count ${orderBy.order}`;
+    sql += ` ${pagination.limitClause}`;
+    params.push(...pagination.limitParams);
+    
     logger.info(
-        `Fetching authors | filters: name=${name || "any"}, order=${order}, page=${page}, limit=${limit}`
+        `Fetching authors | filters: name=${name || "any"}, order=${orderBy.order}, page=${pagination.page}, limit=${pagination.limit}`
     )
     const authors = await fetchAll(db, sql, params);
     if(!authors || authors.length==0){
@@ -54,8 +66,8 @@ export const getAllAuthors = asyncHandler(async(req,res)=>{
         msg:'Authors retreived sucessfully',
         data : authors,
         pagination : {
-            page : page,
-            limit : limit,
+            page : pagination.page,
+            limit : pagination.limit,
             count : authors.length
         }
     });

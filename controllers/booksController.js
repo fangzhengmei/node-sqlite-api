@@ -1,5 +1,6 @@
 import { asyncHandler } from "../utils/asyncWrapper.js";
 import { execute, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
+import { buildPagination, buildOrderBy, buildWhereClause } from "../utils/queryBuilder.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
 
@@ -38,46 +39,52 @@ export const createBooks = asyncHandler(async(req, res)=>{
 });
 
 export const getAllBooks = asyncHandler(async(req, res)=>{
-    let { title , year , order, sort, author, page, limit} = req.query;
-    page = parseInt(page) > 0 ? parseInt(page) : 1,
-    limit = parseInt(limit) > 0 ? parseInt(limit) : 10;
-    const startIndex  = (page -1 ) * limit;
-
-    order = order && order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC'; 
+    const { title , year , order, sort, author, page, limit} = req.query;
+    
+    const pagination = buildPagination(page, limit);
+    const allowedSortFields = ["title", "published_year", "created_at"];
+    const orderBy = buildOrderBy(order, sort, allowedSortFields);
+    
     let sql = `SELECT books.*,authors.name AS author FROM books
     JOIN authors 
     ON books.author_id = authors.id`;
-    const params = [];
-    const searchFields = [];
-    if(title && year){
-        sql += ` WHERE books.title LIKE ? AND books.published_year = ?`; 
-        params.push(`%${title}%`);
-        params.push(`${year}`);
-    }
+    
+    const conditions = [];
     if (title) {
-        searchFields.push(`books.title LIKE ?`);
-        params.push(`%${title}%`);
+        conditions.push({
+            field: `books.title LIKE ?`,
+            value: `%${title}%`
+        });
     }
-    if(year){
-        searchFields.push(`books.published_year = ?`)
-        params.push(`${year}`);
+    if (year) {
+        conditions.push({
+            field: `books.published_year = ?`,
+            value: year
+        });
     }
-    if(author){
-        searchFields.push(`authors.name LIKE ?`)
-        params.push(`%${author}%`);
+    if (author) {
+        conditions.push({
+            field: `authors.name LIKE ?`,
+            value: `%${author}%`
+        });
     }
-    if(searchFields.length>0){
-        sql+= ` WHERE ` + searchFields.join(' AND ');
+    
+    const whereClause = buildWhereClause(conditions);
+    const params = [...whereClause.params];
+    
+    if (whereClause.whereClause) {
+        sql += ` ${whereClause.whereClause}`;
     }
-    const sortBy = ["title", "published_year", "created_at"];
-    if (sort && sortBy.includes(sort)) {
-        sql += ` ORDER BY ${sort} ${order}`;
+    
+    if (orderBy.orderByClause) {
+        sql += ` ${orderBy.orderByClause}`;
     }
-    sql += ` LIMIT ? OFFSET ?`;
-    params.push(limit, startIndex);
+    
+    sql += ` ${pagination.limitClause}`;
+    params.push(...pagination.limitParams);
 
     logger.info(
-        `Fetching books | filters: title=${title || "any"}, year=${year || "any"}, author=${author || "any"}, sort=${sort || "none"}, order=${order}, page=${page}, limit=${limit}`
+        `Fetching books | filters: title=${title || "any"}, year=${year || "any"}, author=${author || "any"}, sort=${sort || "none"}, order=${orderBy.order}, page=${pagination.page}, limit=${pagination.limit}`
     )
     const books = await fetchAll(db, sql, params);
     if(!books || books.length==0){
