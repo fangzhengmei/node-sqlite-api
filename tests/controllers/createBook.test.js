@@ -1,4 +1,3 @@
-import { beforeEach, describe } from 'node:test';
 import { createBooks } from '../../controllers/booksController.js';
 import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
@@ -20,7 +19,7 @@ describe('Create Books test',()=>{
         res = {
             status : jest.fn().mockReturnThis(),
             json : jest.fn()
-        }
+        };
     });
 
     test('should create a book if it doesnot already exist', async()=>{
@@ -46,7 +45,7 @@ describe('Create Books test',()=>{
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({msg:'Book created successfully'});
-    }),
+    });
 
     test('Throw 409 if book already exists',async()=>{
         dbHelper.fetchAll.mockResolvedValue([{
@@ -64,5 +63,4 @@ describe('Create Books test',()=>{
         expect(res.status).not.toHaveBeenCalled();
         expect(res.json).not.toHaveBeenCalled();
     });
-
-})
+});

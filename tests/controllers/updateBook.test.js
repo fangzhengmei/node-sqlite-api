@@ -1,4 +1,3 @@
-import { beforeEach } from 'node:test';
 import {updateBooks} from '../../controllers/booksController.js';
 import * as dbHelper from '../../utils/dbRunMethodWrapper.js';
 
@@ -33,7 +32,7 @@ describe('update books controller method test',()=>{
         });
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
-    })
+    });
 
     test('should throw 409 if ISBN already exists for another book', async () => {
         req = {
@@ -91,5 +90,5 @@ describe('update books controller method test',()=>{
         );
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
-    })
-})
+    });
+});
