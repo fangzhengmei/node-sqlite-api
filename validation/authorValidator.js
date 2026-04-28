@@ -44,8 +44,8 @@ export const getAuthorValidation = [
   query('limit')
     .optional()
     .trim()
-    .isInt({git : 0})
-    .withMessage('Limit  must be greater than 0')
+    .isInt({gt : 0})
+    .withMessage('Limit must be greater than 0')
     .toInt()
 ]
 

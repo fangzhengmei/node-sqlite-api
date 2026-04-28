@@ -1,9 +1,15 @@
-import {validationResult} from 'express-validator';
+import { validationResult } from 'express-validator';
+import { ValidationError } from '../errors/AppError.js';
 
-export const validationErrorHandler = async(req, res, next)=>{
+export const validationErrorHandler = (req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors : errors.array()})
-    } 
+    if (!errors.isEmpty()) {
+        const validationErrors = errors.array().map(err => ({
+            field: err.param,
+            message: err.msg,
+            value: err.value
+        }));
+        return next(new ValidationError('Validation failed', validationErrors));
+    }
     next();
-}
+};
