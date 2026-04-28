@@ -23,6 +23,21 @@ describe('update books controller method test',()=>{
         };
     });
 
+    test('should throw 400 when no fields are provided to update', async () => {
+        req = {
+            body: {},
+            params: { id: 1 }
+        };
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: 'At least one field must be provided to update',
+            statusCode: 400
+        });
+
+        expect(dbHelper.fetchFirst).not.toHaveBeenCalled();
+        expect(dbHelper.execute).not.toHaveBeenCalled();
+    });
+
     test('Book does not exist',async()=>{
         dbHelper.fetchFirst.mockResolvedValue(null);
 
