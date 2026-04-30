@@ -1,14 +1,31 @@
-import { beforeEach } from 'node:test';
-import {updateBooks} from '../../controllers/booksController.js';
-import * as dbHelper from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let updateBooks;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('update books controller method test',()=>{
     let req;
     let res;
-    beforeEach(()=>{
-        jest.clearAllMocks();
+    
+    beforeEach(async ()=>{
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        updateBooks = booksModule.updateBooks;
+
         req = {
             body : { 
                 title : 'Test',
@@ -25,14 +42,14 @@ describe('update books controller method test',()=>{
     });
 
     test('Book does not exist',async()=>{
-        dbHelper.fetchFirst.mockResolvedValue(null);
+        mockFetchFirst.mockResolvedValue(null);
 
         await expect(updateBooks(req, res)).rejects.toMatchObject({
             message: 'No such book with id 1 exists in the books table',
             statusCode: 400
         });
 
-        expect(dbHelper.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 
     test('should throw 409 if ISBN already exists', async () => {
@@ -40,7 +57,7 @@ describe('update books controller method test',()=>{
             params: { id: 1 },
             body: { isbn: '1234567890' }
         };
-        dbHelper.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({ id: 1, title: 'Old Title' })
             .mockResolvedValueOnce({ id: 2, title: 'Another Book' });
 
@@ -49,19 +66,19 @@ describe('update books controller method test',()=>{
             statusCode: 409
         });
 
-        expect(dbHelper.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 
     test('should update multiple fields successfully', async()=>{
-        dbHelper.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({ id: 1, title: 'Old Title', isbn: '1234567999' })
             .mockResolvedValueOnce({ id: 1, name: 'Test Author' })
             .mockResolvedValueOnce(null);
-        dbHelper.execute.mockResolvedValue();
+        mockExecute.mockResolvedValue();
 
         await updateBooks(req,res);
 
-        expect(dbHelper.execute).toHaveBeenCalledWith(
+        expect(mockExecute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('UPDATE books SET'),
             ['Test', '1234567890', 1996, 1, 1]
@@ -71,7 +88,7 @@ describe('update books controller method test',()=>{
     });
 
     test('should throw 400 if author_id is invalid', async()=>{
-        dbHelper.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({ id: 1, title: 'Old Title' })
             .mockResolvedValueOnce(null);
 
@@ -80,6 +97,6 @@ describe('update books controller method test',()=>{
             statusCode: 400
         });
 
-        expect(dbHelper.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 })

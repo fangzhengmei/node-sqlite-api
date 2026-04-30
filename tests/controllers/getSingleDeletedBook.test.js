@@ -1,14 +1,31 @@
-import { getSingleDeletedBook } from "../../controllers/booksController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let getSingleDeletedBook;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('getSingleDeletedBook unit test', () => {
     let req;
     let res;
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        getSingleDeletedBook = booksModule.getSingleDeletedBook;
+
         req = { params: { id: 1 } };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -17,7 +34,7 @@ describe('getSingleDeletedBook unit test', () => {
     });
 
     test('should return a single deleted book with author info', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue({
+        mockFetchFirst.mockResolvedValue({
             author_id: 1,
             name: 'Test Author',
             email: 'test@test.com',
@@ -32,7 +49,7 @@ describe('getSingleDeletedBook unit test', () => {
 
         await getSingleDeletedBook(req, res);
 
-        expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
+        expect(mockFetchFirst).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('WHERE books.id = ? AND books.deleted_at IS NOT NULL'),
             [1]
@@ -49,7 +66,7 @@ describe('getSingleDeletedBook unit test', () => {
     });
 
     test('should return 404 when deleted book does not exist', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue(null);
+        mockFetchFirst.mockResolvedValue(null);
 
         await expect(getSingleDeletedBook(req, res)).rejects.toMatchObject({
             message: 'No deleted book with id 1 exists in the books table',

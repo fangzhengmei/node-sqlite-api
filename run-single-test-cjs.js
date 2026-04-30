@@ -1,0 +1,46 @@
+import { execSync } from 'child_process';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log('=== Running Single Test File (CJS) ===');
+console.log('Current directory:', __dirname);
+
+const jestPath = join(__dirname, 'node_modules', 'jest', 'bin', 'jest.js');
+const testFile = join(__dirname, 'tests', 'controllers', 'createAuthor.test.cjs');
+
+console.log('Jest path:', jestPath);
+console.log('Test file:', testFile);
+console.log('\n=== Executing test ===\n');
+
+try {
+  const output = execSync(`node --experimental-vm-modules "${jestPath}" "${testFile}" --verbose`, {
+    cwd: __dirname,
+    encoding: 'utf8',
+    timeout: 300000
+  });
+  
+  console.log(output);
+  console.log('\n=== Test Results ===');
+  console.log('✓ Test passed!');
+  process.exit(0);
+} catch (error) {
+  if (error.stdout) {
+    console.log('=== STDOUT ===');
+    console.log(error.stdout);
+  }
+  if (error.stderr) {
+    console.log('=== STDERR ===');
+    console.log(error.stderr);
+  }
+  console.log('\n=== Test Results ===');
+  console.log('Exit code:', error.status);
+  if (error.status === 0) {
+    console.log('✓ Test passed!');
+  } else {
+    console.log('✗ Test failed');
+  }
+  process.exit(error.status || 1);
+}

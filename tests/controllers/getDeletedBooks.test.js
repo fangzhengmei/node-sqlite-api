@@ -1,14 +1,31 @@
-import { getDeletedBooks } from "../../controllers/booksController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let getDeletedBooks;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('getDeletedBooks unit test', () => {
     let req;
     let res;
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        getDeletedBooks = booksModule.getDeletedBooks;
+
         req = { query: {} };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -17,13 +34,13 @@ describe('getDeletedBooks unit test', () => {
     });
 
     test('should return deleted books with default query params', async () => {
-        dbHelpers.fetchAll.mockResolvedValue([
+        mockFetchAll.mockResolvedValue([
             { id: 1, title: 'Test', isbn: '1234567890', published_year: 1996, author_id: 1, author: 'Test Author', deleted_at: '2025-09-13 06:47:02' }
         ]);
 
         await getDeletedBooks(req, res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('WHERE books.deleted_at IS NOT NULL'),
             expect.arrayContaining([10, 0])
@@ -37,13 +54,13 @@ describe('getDeletedBooks unit test', () => {
 
     test('should apply title filter when provided', async () => {
         req.query = { title: 'Test' };
-        dbHelpers.fetchAll.mockResolvedValue([
+        mockFetchAll.mockResolvedValue([
             { id: 1, title: 'Test Book', isbn: '1234567890', published_year: 1996, author_id: 1, author: 'Test Author', deleted_at: '2025-09-13 06:47:02' }
         ]);
 
         await getDeletedBooks(req, res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('books.title LIKE ?'),
             expect.arrayContaining(['%Test%', 10, 0])
@@ -52,7 +69,7 @@ describe('getDeletedBooks unit test', () => {
     });
 
     test('should return 204 when no deleted books found', async () => {
-        dbHelpers.fetchAll.mockResolvedValue([]);
+        mockFetchAll.mockResolvedValue([]);
 
         await getDeletedBooks(req, res);
 

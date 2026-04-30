@@ -1,14 +1,31 @@
-import { restoreBook } from "../../controllers/booksController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let restoreBook;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('restoreBook unit test', () => {
     let req;
     let res;
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        restoreBook = booksModule.restoreBook;
+
         req = { params: { id: 1 } };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -17,25 +34,25 @@ describe('restoreBook unit test', () => {
     });
 
     test('should restore a deleted book when author is not deleted', async () => {
-        dbHelpers.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({ id: 1, title: 'Test Book', isbn: '1234567890', author_id: 1, deleted_at: '2025-09-13 06:47:02' })
             .mockResolvedValueOnce({ id: 1, name: 'Test Author', email: 'test@test.com' });
-        dbHelpers.execute.mockResolvedValue();
+        mockExecute.mockResolvedValue();
 
         await restoreBook(req, res);
 
-        expect(dbHelpers.fetchFirst).toHaveBeenCalledTimes(2);
-        expect(dbHelpers.fetchFirst).toHaveBeenNthCalledWith(1,
+        expect(mockFetchFirst).toHaveBeenCalledTimes(2);
+        expect(mockFetchFirst).toHaveBeenNthCalledWith(1,
             expect.anything(),
             expect.stringContaining('SELECT * FROM books WHERE id = ? AND deleted_at IS NOT NULL'),
             [1]
         );
-        expect(dbHelpers.fetchFirst).toHaveBeenNthCalledWith(2,
+        expect(mockFetchFirst).toHaveBeenNthCalledWith(2,
             expect.anything(),
             expect.stringContaining('SELECT * FROM authors WHERE id = ? AND deleted_at IS NULL'),
             [1]
         );
-        expect(dbHelpers.execute).toHaveBeenCalledWith(
+        expect(mockExecute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('UPDATE books SET deleted_at = NULL'),
             [1]
@@ -45,18 +62,18 @@ describe('restoreBook unit test', () => {
     });
 
     test('should return 404 when deleted book does not exist', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue(null);
+        mockFetchFirst.mockResolvedValue(null);
 
         await expect(restoreBook(req, res)).rejects.toMatchObject({
             message: 'Deleted book with the given id 1 does not exist',
             statusCode: 404
         });
 
-        expect(dbHelpers.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 
     test('should return 400 when author is also deleted', async () => {
-        dbHelpers.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({ id: 1, title: 'Test Book', isbn: '1234567890', author_id: 1, deleted_at: '2025-09-13 06:47:02' })
             .mockResolvedValueOnce(null);
 
@@ -65,6 +82,6 @@ describe('restoreBook unit test', () => {
             statusCode: 400
         });
 
-        expect(dbHelpers.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 });

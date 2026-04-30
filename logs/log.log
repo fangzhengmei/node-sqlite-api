@@ -1,0 +1,103 @@
+[2026-04-30 09:47:25] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:47:25] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:48:33] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:48:33] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:49:50] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:49:51] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:53:50] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:53:51] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:53:51] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:53:50] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:53:50] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:53:51] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:53:50] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:53:51] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:53:50] INFO: Attempting to restore author with id 1
+[2026-04-30 09:53:51] INFO: Attempting to restore author with id 1
+[2026-04-30 09:53:50] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:53:51] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:53:52] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:53:50] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:53:52] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:53:51] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 09:53:50] INFO: Attempting to restore book with id 1
+[2026-04-30 09:53:50] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:53:51] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:53:52] INFO: Attempting to restore book with id 1
+[2026-04-30 09:53:51] INFO: Attempting to restore book with id 1
+[2026-04-30 09:53:52] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:53:51] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:53:52] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:53:51] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:53:52] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:53:52] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:53:52] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:53:52] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:53:52] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:53:52] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:26] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:54:26] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:54:26] INFO: Attempting to restore author with id 1
+[2026-04-30 09:54:27] INFO: Attempting to restore author with id 1
+[2026-04-30 09:54:27] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:54:26] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:54:26] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:54:27] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:54:26] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:54:26] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:54:26] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:54:26] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:54:27] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:54:26] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:54:27] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:54:26] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:26] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:27] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:26] INFO: Attempting to restore book with id 1
+[2026-04-30 09:54:27] INFO: Attempting to restore book with id 1
+[2026-04-30 09:54:27] INFO: Attempting to restore book with id 1
+[2026-04-30 09:54:26] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:54:27] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 09:54:27] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:54:26] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:54:27] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:54:27] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:54:27] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:54:27] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:28] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:54:28] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:06] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:55:05] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 09:55:05] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:55:06] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 09:55:05] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:55:06] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:55:05] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:55:06] INFO: Attempting to soft delete author with id 1
+[2026-04-30 09:55:05] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:55:05] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 09:55:06] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 09:55:05] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:05] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:06] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:05] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:55:06] INFO: Attempting to soft delete book with id 1
+[2026-04-30 09:55:05] INFO: Attempting to restore author with id 1
+[2026-04-30 09:55:06] INFO: Attempting to restore author with id 1
+[2026-04-30 09:55:05] INFO: Attempting to restore book with id 1
+[2026-04-30 09:55:06] INFO: Attempting to restore book with id 1
+[2026-04-30 09:55:06] INFO: Attempting to restore book with id 1
+[2026-04-30 09:55:05] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:55:06] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:55:06] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 09:55:05] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:55:06] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:55:06] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:55:06] INFO: Attempting to retrive the book to be updated
+[2026-04-30 09:55:06] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:07] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:06] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 09:55:23] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:55:23] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:55:53] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 09:55:53] INFO: Attempting to create author with unique emal : test@gmail.com

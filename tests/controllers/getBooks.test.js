@@ -1,15 +1,31 @@
-import { beforeEach } from "node:test";
-import { getAllBooks } from "../../controllers/booksController.js"
-import * as dbHelpers from "../../utils/dbRunMethodWrapper.js";
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let getAllBooks;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('get All Books method test', ()=>{
     let req;
     let res;
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
+    beforeEach(async ()=>{
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        getAllBooks = booksModule.getAllBooks;
+
         req = { query : {}};
         res = {
             status : jest.fn().mockReturnThis(),
@@ -18,7 +34,7 @@ describe('get All Books method test', ()=>{
     });
 
     test('should return books with default query params', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue([{
+        mockFetchAll.mockResolvedValue([{
             id : 1,
             title : 'Test',
             isbn : '1234567890',
@@ -30,7 +46,7 @@ describe('get All Books method test', ()=>{
         
         await getAllBooks(req,res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('LIMIT ? OFFSET ?'),
             expect.arrayContaining([10,0])
@@ -45,7 +61,7 @@ describe('get All Books method test', ()=>{
 
     test('should apply title filter when provided', async()=>{
         req.query = { title : 'Test' , year : '2025'};
-        dbHelpers.fetchAll.mockResolvedValue([
+        mockFetchAll.mockResolvedValue([
             {
                 id:1,
                 title:'Test Book',
@@ -58,7 +74,7 @@ describe('get All Books method test', ()=>{
 
         await getAllBooks(req,res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('books.title LIKE ?'),
             expect.arrayContaining(['%Test%', 2025, 10, 0])
@@ -68,7 +84,7 @@ describe('get All Books method test', ()=>{
     });
 
     test('should return 204 when no books found', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue([]);
+        mockFetchAll.mockResolvedValue([]);
 
         await getAllBooks(req,res);
 

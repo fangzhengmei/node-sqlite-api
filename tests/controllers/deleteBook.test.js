@@ -1,14 +1,31 @@
-import { deleteBook } from "../../controllers/booksController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let deleteBook;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('deleteBook unit test', () => {
     let req;
     let res;
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        deleteBook = booksModule.deleteBook;
+
         req = { params: { id: 1 } };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -17,17 +34,17 @@ describe('deleteBook unit test', () => {
     });
 
     test('should soft delete an existing book', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book', isbn: '1234567890' });
-        dbHelpers.execute.mockResolvedValue();
+        mockFetchFirst.mockResolvedValue({ id: 1, title: 'Test Book', isbn: '1234567890' });
+        mockExecute.mockResolvedValue();
 
         await deleteBook(req, res);
 
-        expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
+        expect(mockFetchFirst).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('SELECT * FROM books WHERE id = ? AND deleted_at IS NULL'),
             [1]
         );
-        expect(dbHelpers.execute).toHaveBeenCalledWith(
+        expect(mockExecute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('UPDATE books SET deleted_at = CURRENT_TIMESTAMP'),
             [1]
@@ -37,13 +54,13 @@ describe('deleteBook unit test', () => {
     });
 
     test('should return 404 when book does not exist', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue(null);
+        mockFetchFirst.mockResolvedValue(null);
 
         await expect(deleteBook(req, res)).rejects.toMatchObject({
             message: 'Book with the given id 1 does not exist',
             statusCode: 404
         });
 
-        expect(dbHelpers.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 });

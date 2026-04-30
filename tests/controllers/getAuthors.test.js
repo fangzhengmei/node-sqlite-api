@@ -1,15 +1,31 @@
-import { beforeEach } from "node:test";
-import { getAllAuthors } from "../../controllers/authorController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let getAllAuthors;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('get All authors unit test', async ()=>{
     let req;
     let res;
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
+    beforeEach(async ()=>{
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const authorModule = await import('../../controllers/authorController.js');
+        getAllAuthors = authorModule.getAllAuthors;
+
         req = { query : {}};
         res = {
             status : jest.fn().mockReturnThis(),
@@ -18,11 +34,11 @@ describe('get All authors unit test', async ()=>{
     });
 
     test('should return authors with default query params', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue([{id:1, name:'Test', email:'test@gmail.com', cretatedAt:'2025-09-12 06:47:02', books_count: 5}]);
+        mockFetchAll.mockResolvedValue([{id:1, name:'Test', email:'test@gmail.com', cretatedAt:'2025-09-12 06:47:02', books_count: 5}]);
 
         await getAllAuthors(req,res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('LIMIT ? OFFSET ?'),
             expect.arrayContaining([10,0])
@@ -38,11 +54,11 @@ describe('get All authors unit test', async ()=>{
 
     test('should apply name filter when provided', async()=>{
         req.query = { name : 'Test'};
-        dbHelpers.fetchAll.mockResolvedValue([{id:1, name:'Test', email:'test@gmail.com', cretatedAt:'2025-09-12 06:47:02', books_count: 5}]);
+        mockFetchAll.mockResolvedValue([{id:1, name:'Test', email:'test@gmail.com', cretatedAt:'2025-09-12 06:47:02', books_count: 5}]);
 
         await getAllAuthors(req,res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('authors.name LIKE ?'),
             expect.arrayContaining(['%Test%', 10, 0])
@@ -57,7 +73,7 @@ describe('get All authors unit test', async ()=>{
     });
 
     test('should return 204 when no authors found', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue([]);
+        mockFetchAll.mockResolvedValue([]);
 
         await getAllAuthors(req,res);
 

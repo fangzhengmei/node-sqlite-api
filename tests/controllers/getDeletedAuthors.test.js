@@ -1,14 +1,31 @@
-import { getDeletedAuthors } from "../../controllers/authorController.js";
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let getDeletedAuthors;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('getDeletedAuthors unit test', () => {
     let req;
     let res;
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+    beforeEach(async () => {
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const authorModule = await import('../../controllers/authorController.js');
+        getDeletedAuthors = authorModule.getDeletedAuthors;
+
         req = { query: {} };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -17,13 +34,13 @@ describe('getDeletedAuthors unit test', () => {
     });
 
     test('should return deleted authors with default query params', async () => {
-        dbHelpers.fetchAll.mockResolvedValue([
+        mockFetchAll.mockResolvedValue([
             { id: 1, name: 'Test', email: 'test@gmail.com', deleted_at: '2025-09-12 06:47:02', books_count: 5 }
         ]);
 
         await getDeletedAuthors(req, res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('WHERE authors.deleted_at IS NOT NULL'),
             expect.arrayContaining([10, 0])
@@ -38,13 +55,13 @@ describe('getDeletedAuthors unit test', () => {
 
     test('should apply name filter when provided', async () => {
         req.query = { name: 'Test' };
-        dbHelpers.fetchAll.mockResolvedValue([
+        mockFetchAll.mockResolvedValue([
             { id: 1, name: 'Test', email: 'test@gmail.com', deleted_at: '2025-09-12 06:47:02', books_count: 5 }
         ]);
 
         await getDeletedAuthors(req, res);
 
-        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+        expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('AND authors.name LIKE ?'),
             expect.arrayContaining(['%Test%', 10, 0])
@@ -53,7 +70,7 @@ describe('getDeletedAuthors unit test', () => {
     });
 
     test('should return 204 when no deleted authors found', async () => {
-        dbHelpers.fetchAll.mockResolvedValue([]);
+        mockFetchAll.mockResolvedValue([]);
 
         await getDeletedAuthors(req, res);
 

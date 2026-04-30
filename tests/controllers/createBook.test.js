@@ -1,15 +1,31 @@
-import { beforeEach, describe } from 'node:test';
-import { createBooks } from '../../controllers/booksController.js';
-import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+let createBooks;
+let mockFetchFirst;
+let mockFetchAll;
+let mockExecute;
 
 describe('Create Books test',()=>{
     let req;
     let res;
 
-    beforeEach(()=>{
-        jest.clearAllMocks();
+    beforeEach(async ()=>{
+        jest.resetModules();
+        
+        mockFetchFirst = jest.fn();
+        mockFetchAll = jest.fn();
+        mockExecute = jest.fn();
+        
+        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+            __esModule: true,
+            fetchFirst: mockFetchFirst,
+            fetchAll: mockFetchAll,
+            execute: mockExecute
+        }));
+        
+        const booksModule = await import('../../controllers/booksController.js');
+        createBooks = booksModule.createBooks;
+
         req = { 
             body : { 
                 title : 'Test',
@@ -24,18 +40,18 @@ describe('Create Books test',()=>{
     });
 
     test('should create a book if it doesnot already exist', async()=>{
-        dbHelper.fetchFirst.mockResolvedValue(null);
-        dbHelper.execute.mockResolvedValue();
+        mockFetchFirst.mockResolvedValue(null);
+        mockExecute.mockResolvedValue();
 
         await createBooks(req, res);
 
-        expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
+        expect(mockFetchFirst).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('SELECT * FROM books'),
             ['1234567890']
         );
 
-        expect(dbHelper.execute).toHaveBeenCalledWith(
+        expect(mockExecute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('INSERT INTO books'),
             ['Test','1234567890',1996,1]
@@ -46,7 +62,7 @@ describe('Create Books test',()=>{
     });
 
     test('Throw 409 if book already exists',async()=>{
-        dbHelper.fetchFirst
+        mockFetchFirst
             .mockResolvedValueOnce({
                 id : 1,
                 title : 'Test',
@@ -61,7 +77,7 @@ describe('Create Books test',()=>{
             statusCode: 409,
         });
 
-        expect(dbHelper.execute).not.toHaveBeenCalled();
+        expect(mockExecute).not.toHaveBeenCalled();
     });
 
 })
