@@ -1,23 +1,53 @@
-import sqlite3 from 'sqlite3';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
-console.log(path);
+const dbPath = path.resolve(process.cwd(), "data/app.db");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const require = createRequire(path.resolve(process.cwd(), "index.js"));
 
-const dbPath =  path.resolve(__dirname, "../data/app.db");
+let dbInstance = null;
+let sqlite3 = null;
+let initializationError = null;
 
-fs.mkdirSync(path.dirname(dbPath), {recursive : true});
+try {
+    sqlite3 = require('sqlite3');
+} catch (err) {
+    initializationError = err;
+}
 
-const db = new sqlite3.Database(dbPath,(err)=>{
-    if (err) {
-    console.error("Failed to connect to database:", err);
-  } else {
-    console.log("Connected to SQLite database at", dbPath);
-  }
-})
+const getDb = () => {
+    if (initializationError) {
+        throw new Error("sqlite3 module is not available");
+    }
+
+    if (!dbInstance) {
+        fs.mkdirSync(path.dirname(dbPath), {recursive : true});
+
+        dbInstance = new sqlite3.Database(dbPath, (err) => {
+            if (err) {
+                console.error("Failed to connect to database:", err);
+            } else {
+                console.log("Connected to SQLite database at", dbPath);
+            }
+        });
+    }
+    return dbInstance;
+};
+
+const db = new Proxy({}, {
+    get(target, prop) {
+        if (initializationError) {
+            return () => {
+                throw new Error("sqlite3 module is not available");
+            };
+        }
+
+        const database = getDb();
+        return typeof database[prop] === 'function'
+            ? database[prop].bind(database)
+            : database[prop];
+    }
+});
 
 export default db;
