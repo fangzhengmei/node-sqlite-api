@@ -47,12 +47,12 @@ describe('restoreBook unit test', () => {
     test('should return 404 when deleted book does not exist', async () => {
         dbHelpers.fetchFirst.mockResolvedValue(null);
 
-        await restoreBook(req, res);
+        await expect(restoreBook(req, res)).rejects.toMatchObject({
+            message: 'Deleted book with the given id 1 does not exist',
+            statusCode: 404
+        });
 
-        expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith(
-            expect.objectContaining({ msg: 'Deleted book with the given id 1 does not exist' })
-        );
+        expect(dbHelpers.execute).not.toHaveBeenCalled();
     });
 
     test('should return 400 when author is also deleted', async () => {
@@ -60,11 +60,11 @@ describe('restoreBook unit test', () => {
             .mockResolvedValueOnce({ id: 1, title: 'Test Book', isbn: '1234567890', author_id: 1, deleted_at: '2025-09-13 06:47:02' })
             .mockResolvedValueOnce(null);
 
-        await restoreBook(req, res);
+        await expect(restoreBook(req, res)).rejects.toMatchObject({
+            message: 'Cannot restore book because its author is also deleted. Please restore the author first.',
+            statusCode: 400
+        });
 
-        expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.json).toHaveBeenCalledWith(
-            expect.objectContaining({ msg: 'Cannot restore book because its author is also deleted. Please restore the author first.' })
-        );
+        expect(dbHelpers.execute).not.toHaveBeenCalled();
     });
 });

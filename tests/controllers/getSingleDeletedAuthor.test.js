@@ -54,12 +54,10 @@ describe('getSingleDeletedAuthor unit test', () => {
     test('should return 404 when deleted author does not exist', async () => {
         dbHelpers.fetchAll.mockResolvedValue([]);
 
-        await getSingleDeletedAuthor(req, res);
-
-        expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith(
-            expect.objectContaining({ msg: 'Deleted author with the given id 1 does not exist' })
-        );
+        await expect(getSingleDeletedAuthor(req, res)).rejects.toMatchObject({
+            message: 'Deleted author with the given id 1 does not exist',
+            statusCode: 404
+        });
     });
 
     test('should return deleted author without books when no deleted books exist', async () => {

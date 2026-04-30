@@ -28,7 +28,7 @@ describe('createAuthor unit tests', ()=>{
 
         expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM authors WHERE email = ?',
+            expect.stringContaining('SELECT * FROM authors WHERE email = ?'),
             ['test@gmail.com']
         );
 
@@ -52,7 +52,7 @@ describe('createAuthor unit tests', ()=>{
 
         expect(dbHelpers.fetchFirst).toHaveBeenCalledWith(
             expect.anything(),
-            'SELECT * FROM authors WHERE email = ?',
+            expect.stringContaining('SELECT * FROM authors WHERE email = ?'),
             ['test@gmail.com']
         );
 

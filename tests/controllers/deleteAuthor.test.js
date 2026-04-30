@@ -45,19 +45,11 @@ describe('deleteAuthor unit test', () => {
     test('should return 404 when author does not exist', async () => {
         dbHelpers.fetchFirst.mockResolvedValue(null);
 
-        await deleteAuthor(req, res);
+        await expect(deleteAuthor(req, res)).rejects.toMatchObject({
+            message: 'Author with the given id 1 does not exist',
+            statusCode: 404
+        });
 
-        expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith(
-            expect.objectContaining({ msg: 'Author with the given id 1 does not exist' })
-        );
-    });
-
-    test('should return 404 when author is already deleted', async () => {
-        dbHelpers.fetchFirst.mockResolvedValue(null);
-
-        await deleteAuthor(req, res);
-
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(dbHelpers.execute).not.toHaveBeenCalled();
     });
 });

@@ -51,11 +51,9 @@ describe('getSingleDeletedBook unit test', () => {
     test('should return 404 when deleted book does not exist', async () => {
         dbHelpers.fetchFirst.mockResolvedValue(null);
 
-        await getSingleDeletedBook(req, res);
-
-        expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith(
-            expect.objectContaining({ msg: 'No deleted book with id 1 exists in the books table' })
-        );
+        await expect(getSingleDeletedBook(req, res)).rejects.toMatchObject({
+            message: 'No deleted book with id 1 exists in the books table',
+            statusCode: 404
+        });
     });
 });

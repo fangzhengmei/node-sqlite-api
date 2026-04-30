@@ -44,7 +44,7 @@ describe('get All authors unit test', async ()=>{
 
         expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
             expect.anything(),
-            expect.stringContaining('WHERE authors.name LIKE ?'),
+            expect.stringContaining('authors.name LIKE ?'),
             expect.arrayContaining(['%Test%', 10, 0])
         );
 
