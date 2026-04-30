@@ -9,3 +9,8 @@ jest.mock('sqlite3', () => ({
     };
   })
 }));
+
+jest.mock('./config/connDB.js', () => ({
+  __esModule: true,
+  default: {}
+}));

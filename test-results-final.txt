@@ -1,0 +1,170 @@
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+

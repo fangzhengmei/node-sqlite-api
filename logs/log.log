@@ -101,3 +101,592 @@
 [2026-04-30 09:55:23] INFO: Attempting to create author with unique emal : test@gmail.com
 [2026-04-30 09:55:53] INFO: Attempting to create author with unique emal : test@gmail.com
 [2026-04-30 09:55:53] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:23:22] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:23:22] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:23:23] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:23:24] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:23:23] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:23:24] WARN: No deleted authors found for the given filters
+[2026-04-30 10:23:22] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:23] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:24] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:22] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:23:23] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:23:24] WARN: No books found for the given filters
+[2026-04-30 10:23:23] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:23] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:24] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:23:23] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:23:23] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:23:24] WARN: No deleted books found for the given filters
+[2026-04-30 10:25:37] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:38] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:37] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:25:38] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:25:39] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:39] WARN: No deleted books found for the given filters
+[2026-04-30 10:25:39] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:25:38] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:25:40] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:25:39] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:25:38] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:25:40] WARN: No deleted authors found for the given filters
+[2026-04-30 10:25:38] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:39] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:40] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:25:38] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:25:40] WARN: No books found for the given filters
+[2026-04-30 10:25:39] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:27:54] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:27:55] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:27:56] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:27:54] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:27:55] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:27:56] WARN: No deleted authors found for the given filters
+[2026-04-30 10:27:56] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:57] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:55] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:56] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:27:57] WARN: No books found for the given filters
+[2026-04-30 10:27:55] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:27:55] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:56] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:57] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:27:55] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:27:56] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:27:57] WARN: No deleted books found for the given filters
+[2026-04-30 10:33:17] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:33:17] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:33:17] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:33:17] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:33:17] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:34:04] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:34:04] INFO: Deleted book retrieved successfully
+[2026-04-30 10:34:05] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:34:05] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:34:04] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:34:05] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:34:04] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:34:04] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:34:05] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:34:04] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:34:05] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:34:04] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:34:05] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:34:04] INFO: Attempting to restore author with id 1
+[2026-04-30 10:34:05] INFO: Attempting to restore author with id 1
+[2026-04-30 10:34:04] INFO: Restored all books associated with author id 1
+[2026-04-30 10:34:04] INFO: Author restored successfully, id : 1
+[2026-04-30 10:34:05] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:34:04] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:05] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:05] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:04] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:34:05] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:34:05] WARN: No deleted books found for the given filters
+[2026-04-30 10:34:04] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:34:05] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:34:05] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:34:04] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:34:05] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:34:05] WARN: No deleted authors found for the given filters
+[2026-04-30 10:34:04] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:05] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:05] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:04] INFO: Book restored successfully, id : 1
+[2026-04-30 10:34:05] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:34:05] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:34:05] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:04] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:05] INFO: Deleted author retrieved successfully
+[2026-04-30 10:34:04] INFO: Deleted author retrieved successfully
+[2026-04-30 10:34:05] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:05] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:34:50] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:34:51] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:34:50] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:34:51] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:34:50] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:34:51] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:34:50] INFO: Deleted book retrieved successfully
+[2026-04-30 10:34:51] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:34:50] INFO: Attempting to restore author with id 1
+[2026-04-30 10:34:51] INFO: Attempting to restore author with id 1
+[2026-04-30 10:34:50] INFO: Restored all books associated with author id 1
+[2026-04-30 10:34:50] INFO: Author restored successfully, id : 1
+[2026-04-30 10:34:51] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:34:50] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:34:51] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:34:50] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:34:51] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:34:50] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:34:51] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:34:50] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:34:50] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:34:51] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:34:50] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:50] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:34:51] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:34:51] WARN: No books found for the given filters
+[2026-04-30 10:34:50] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:34:50] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:34:51] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:34:51] WARN: No deleted books found for the given filters
+[2026-04-30 10:34:50] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:34:50] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:34:51] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:34:51] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:34:51] WARN: No deleted authors found for the given filters
+[2026-04-30 10:34:50] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:51] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:51] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:34:50] INFO: Deleted author retrieved successfully
+[2026-04-30 10:34:51] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:34:51] INFO: Deleted author retrieved successfully
+[2026-04-30 10:34:50] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:51] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:51] INFO: Attempting to restore book with id 1
+[2026-04-30 10:34:50] INFO: Book restored successfully, id : 1
+[2026-04-30 10:34:51] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:34:51] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:34:52] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:34:52] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:34:52] WARN: Invalid author_id : 1 while creating book with isbn 1234567890
+[2026-04-30 10:34:52] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:34:51] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:34:51] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:34:52] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:34:52] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:34:51] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:34:51] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:34:52] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:34:52] INFO: Book updated successfully
+[2026-04-30 10:34:52] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:35:34] INFO: Attempting to restore author with id 1
+[2026-04-30 10:35:33] INFO: Attempting to restore author with id 1
+[2026-04-30 10:35:34] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:35:33] INFO: Restored all books associated with author id 1
+[2026-04-30 10:35:33] INFO: Author restored successfully, id : 1
+[2026-04-30 10:35:33] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:35:33] WARN: Invalid author_id : 1 while creating book with isbn 1234567890
+[2026-04-30 10:35:34] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:35:34] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:35:33] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:35:35] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:35:33] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:35:35] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:35:34] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:35:34] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:35:34] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:35:35] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:35:35] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:35:34] INFO: Attempting to restore book with id 1
+[2026-04-30 10:35:33] INFO: Attempting to restore book with id 1
+[2026-04-30 10:35:34] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:35:35] INFO: Attempting to restore book with id 1
+[2026-04-30 10:35:33] INFO: Book restored successfully, id : 1
+[2026-04-30 10:35:35] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:35:33] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:35:34] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:35:33] INFO: Deleted book retrieved successfully
+[2026-04-30 10:35:34] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:35:33] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:34] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:35] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:33] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:35:34] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:35:35] WARN: No books found for the given filters
+[2026-04-30 10:35:35] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:35:33] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:35:35] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:35:35] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:35:33] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:35:35] WARN: No deleted authors found for the given filters
+[2026-04-30 10:35:34] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:35:35] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:35:35] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:35:34] INFO: Deleted author retrieved successfully
+[2026-04-30 10:35:35] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:35:35] INFO: Deleted author retrieved successfully
+[2026-04-30 10:35:34] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:35] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:35] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:35:34] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:35:35] WARN: No deleted books found for the given filters
+[2026-04-30 10:35:35] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:35:33] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:35:34] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:35:35] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:35:33] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:35:35] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:35:34] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:35:35] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:35:35] INFO: Book updated successfully
+[2026-04-30 10:35:35] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:35:35] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:35:35] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:35:35] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:35:35] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:38:45] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:38:46] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:38:45] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:38:45] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:38:46] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:39:22] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:39:21] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:39:22] INFO: Attempting to restore author with id 1
+[2026-04-30 10:39:21] INFO: Attempting to restore author with id 1
+[2026-04-30 10:39:22] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:39:21] INFO: Restored all books associated with author id 1
+[2026-04-30 10:39:21] INFO: Author restored successfully, id : 1
+[2026-04-30 10:39:22] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:39:22] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:39:22] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:39:22] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:39:22] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:39:22] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:39:22] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:39:22] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:39:22] INFO: Deleted book retrieved successfully
+[2026-04-30 10:39:21] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:22] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:21] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:39:23] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:22] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:39:23] WARN: No books found for the given filters
+[2026-04-30 10:39:21] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:39:22] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:39:21] WARN: Invalid author_id : 1 while creating book with isbn 1234567890
+[2026-04-30 10:39:22] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:39:22] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:39:22] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:39:23] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:39:22] INFO: Deleted author retrieved successfully
+[2026-04-30 10:39:22] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:39:23] INFO: Deleted author retrieved successfully
+[2026-04-30 10:39:22] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:39:23] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:39:22] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:39:22] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:39:23] WARN: No deleted authors found for the given filters
+[2026-04-30 10:39:22] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:39:23] INFO: Attempting to restore book with id 1
+[2026-04-30 10:39:22] INFO: Attempting to restore book with id 1
+[2026-04-30 10:39:22] INFO: Attempting to restore book with id 1
+[2026-04-30 10:39:23] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:39:22] INFO: Book restored successfully, id : 1
+[2026-04-30 10:39:22] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:39:22] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:23] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:23] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:39:22] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:39:23] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:39:23] WARN: No deleted books found for the given filters
+[2026-04-30 10:39:22] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:39:23] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:39:23] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:39:22] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:39:23] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:39:23] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:39:23] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:39:23] INFO: Book updated successfully
+[2026-04-30 10:39:23] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:39:22] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:39:21] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:39:23] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:39:23] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:39:23] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:39:23] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:41:21] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:41:22] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:41:21] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:41:21] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:41:22] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:41:21] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:41:22] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:41:21] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:41:22] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:41:21] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:41:22] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:41:21] INFO: Deleted book retrieved successfully
+[2026-04-30 10:41:22] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:41:21] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:41:21] WARN: Invalid author_id : 1 while creating book with isbn 1234567890
+[2026-04-30 10:41:22] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:41:22] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:41:21] INFO: Attempting to restore author with id 1
+[2026-04-30 10:41:22] INFO: Attempting to restore author with id 1
+[2026-04-30 10:41:21] INFO: Restored all books associated with author id 1
+[2026-04-30 10:41:21] INFO: Author restored successfully, id : 1
+[2026-04-30 10:41:22] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:41:22] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:21] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] WARN: No books found for the given filters
+[2026-04-30 10:41:21] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:41:22] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:41:21] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:41:21] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:41:22] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:41:22] WARN: No deleted authors found for the given filters
+[2026-04-30 10:41:21] INFO: Attempting to restore book with id 1
+[2026-04-30 10:41:22] INFO: Attempting to restore book with id 1
+[2026-04-30 10:41:22] INFO: Attempting to restore book with id 1
+[2026-04-30 10:41:21] INFO: Book restored successfully, id : 1
+[2026-04-30 10:41:22] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:41:22] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:41:21] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:22] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:41:21] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:41:22] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:41:22] WARN: No deleted books found for the given filters
+[2026-04-30 10:41:21] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:41:22] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:41:22] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:41:21] INFO: Deleted author retrieved successfully
+[2026-04-30 10:41:22] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:41:22] INFO: Deleted author retrieved successfully
+[2026-04-30 10:41:21] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:41:22] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:41:21] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:41:22] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:41:23] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:41:22] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:41:23] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:41:22] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:41:22] INFO: Book updated successfully
+[2026-04-30 10:41:23] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:41:23] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:41:23] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:41:23] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:43:10] INFO: Attempting to restore author with id 1
+[2026-04-30 10:43:11] INFO: Attempting to restore author with id 1
+[2026-04-30 10:43:10] INFO: Restored all books associated with author id 1
+[2026-04-30 10:43:10] INFO: Author restored successfully, id : 1
+[2026-04-30 10:43:11] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:43:11] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:43:10] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:43:11] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:43:10] INFO: Deleted book retrieved successfully
+[2026-04-30 10:43:11] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:43:11] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:43:11] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:43:11] INFO: Book created successfully, title : Test ISBN: 1234567890
+[2026-04-30 10:43:11] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:43:12] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:43:11] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:43:12] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:43:12] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:43:11] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:43:11] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:43:12] INFO: Deleted author retrieved successfully
+[2026-04-30 10:43:11] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:43:11] INFO: Deleted author retrieved successfully
+[2026-04-30 10:43:11] INFO: Attempting to restore book with id 1
+[2026-04-30 10:43:11] INFO: Attempting to restore book with id 1
+[2026-04-30 10:43:11] INFO: Book restored successfully, id : 1
+[2026-04-30 10:43:12] INFO: Attempting to restore book with id 1
+[2026-04-30 10:43:11] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:43:12] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:43:11] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:11] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:11] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:43:11] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:43:12] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:12] WARN: No deleted books found for the given filters
+[2026-04-30 10:43:11] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:11] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:43:11] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:11] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:43:12] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:43:12] WARN: No books found for the given filters
+[2026-04-30 10:43:11] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:43:12] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:43:12] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:43:11] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:43:12] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:43:12] WARN: No deleted authors found for the given filters
+[2026-04-30 10:43:10] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:43:11] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:43:12] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:43:12] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:43:10] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:43:11] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:43:12] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:43:12] INFO: Book updated successfully
+[2026-04-30 10:43:12] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:43:12] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:43:12] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:43:12] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:43:12] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:43:10] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:43:11] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:43:10] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:43:10] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:43:11] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:43:12] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:43:13] INFO: Fetching authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:43:12] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:43:13] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:43:13] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:43:13] WARN: No authors found for the given filters
+[2026-04-30 10:44:41] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:44:41] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:44:41] INFO: Deleted book retrieved successfully
+[2026-04-30 10:44:41] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:44:41] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:44:41] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:44:41] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:44:41] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:44:41] INFO: Attempting to restore author with id 1
+[2026-04-30 10:44:41] INFO: Restored all books associated with author id 1
+[2026-04-30 10:44:41] INFO: Author restored successfully, id : 1
+[2026-04-30 10:44:41] INFO: Attempting to restore author with id 1
+[2026-04-30 10:44:41] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:44:41] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:44:41] INFO: Book created successfully, title : Test ISBN: 1234567890
+[2026-04-30 10:44:42] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:44:42] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:44:42] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:44:41] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:44:42] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:44:41] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:44:41] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:44:41] INFO: Attempting to restore book with id 1
+[2026-04-30 10:44:41] INFO: Attempting to restore book with id 1
+[2026-04-30 10:44:42] INFO: Attempting to restore book with id 1
+[2026-04-30 10:44:41] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:44:41] INFO: Book restored successfully, id : 1
+[2026-04-30 10:44:42] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:44:41] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:41] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:42] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:41] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:44:41] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:44:42] WARN: No books found for the given filters
+[2026-04-30 10:44:41] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:44:41] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:44:42] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:44:41] INFO: Deleted author retrieved successfully
+[2026-04-30 10:44:41] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:44:42] INFO: Deleted author retrieved successfully
+[2026-04-30 10:44:41] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:44:42] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:44:41] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:44:41] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:44:42] WARN: No deleted authors found for the given filters
+[2026-04-30 10:44:41] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:44:41] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:42] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:42] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:44:41] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:44:42] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:44:42] WARN: No deleted books found for the given filters
+[2026-04-30 10:44:41] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:44:41] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:44:42] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:44:41] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:44:43] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:44:41] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:44:42] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:44:42] INFO: Book updated successfully
+[2026-04-30 10:44:43] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:44:43] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:44:43] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:44:43] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:44:43] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:44:43] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:44:43] INFO: Fetching authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:44:43] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:44:43] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:44:43] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:44:43] WARN: No authors found for the given filters
+[2026-04-30 10:45:08] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:45:08] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:45:09] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:09] INFO: Fetching authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:45:09] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:08] INFO: Book created successfully, title : Test ISBN: 1234567890
+[2026-04-30 10:45:08] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:45:09] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:45:09] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:45:09] WARN: No authors found for the given filters
+[2026-04-30 10:45:31] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:45:31] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:45:31] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:45:32] INFO: Attempting to retrive the book to be updated
+[2026-04-30 10:45:32] INFO: Attempting to restore book with id 1
+[2026-04-30 10:45:32] INFO: Attempting to restore book with id 1
+[2026-04-30 10:45:33] INFO: Attempting to restore book with id 1
+[2026-04-30 10:45:31] WARN: Book with id 1 does not exist in the books table
+[2026-04-30 10:45:31] WARN: Book with the same ISBN 1234567890 already exists and the isbn is supposed to be unique hence the isbn cannot be updated to 1234567890
+[2026-04-30 10:45:31] INFO: Updating books | update fields : title=Test, isbn = 1234567890, published_year=1996, author_id=1
+[2026-04-30 10:45:31] INFO: Book updated successfully
+[2026-04-30 10:45:32] WARN: Invalid author_id : 1 while updating book with id 1
+[2026-04-30 10:45:32] INFO: Book restored successfully, id : 1
+[2026-04-30 10:45:32] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:45:33] WARN: Cannot restore book with id 1 because its author is also deleted
+[2026-04-30 10:45:33] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:33] INFO: Fetching deleted books | filters: title=Test, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:34] INFO: Fetching deleted books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:33] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:45:33] INFO: Deleted books retrived successfully | counts = 1
+[2026-04-30 10:45:34] WARN: No deleted books found for the given filters
+[2026-04-30 10:45:34] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:45:34] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:45:35] INFO: Attempting to retrieve deleted author and book info for author with id 1
+[2026-04-30 10:45:34] INFO: Deleted author retrieved successfully
+[2026-04-30 10:45:34] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:45:35] INFO: Deleted author retrieved successfully
+[2026-04-30 10:45:35] INFO: Fetching deleted authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:45:35] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:35] INFO: Fetching deleted authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:35] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:45:35] INFO: Deleted authors retrieved successfully | counts = 1
+[2026-04-30 10:45:35] WARN: No deleted authors found for the given filters
+[2026-04-30 10:45:36] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:36] INFO: Fetching books | filters: title=Test, year=2025, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:36] INFO: Fetching books | filters: title=any, year=any, author=any, sort=none, order=DESC, page=1, limit=10
+[2026-04-30 10:45:36] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:45:36] INFO: Books retrived successfully | counts = 1
+[2026-04-30 10:45:36] WARN: No books found for the given filters
+[2026-04-30 10:45:37] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:45:37] INFO: Attempting to soft delete author with id 1
+[2026-04-30 10:45:37] INFO: Soft deleted all books associated with author id 1
+[2026-04-30 10:45:37] INFO: Author soft deleted successfully, id : 1
+[2026-04-30 10:45:37] WARN: Author with id 1 does not exist or is already deleted
+[2026-04-30 10:45:37] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:45:37] INFO: Attempting to retrieve deleted book and book author info for book with id 1
+[2026-04-30 10:45:37] WARN: Deleted book with id 1 does not exist
+[2026-04-30 10:45:37] INFO: Deleted book retrieved successfully
+[2026-04-30 10:45:38] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:45:38] INFO: Attempting to create author with unique emal : test@gmail.com
+[2026-04-30 10:45:38] INFO: Author created successfully, email : test@gmail.com name: Test
+[2026-04-30 10:45:38] WARN: Duplicate author error : Author with the test@gmail.com already exists
+[2026-04-30 10:45:38] INFO: Attempting to restore author with id 1
+[2026-04-30 10:45:38] INFO: Attempting to restore author with id 1
+[2026-04-30 10:45:38] INFO: Restored all books associated with author id 1
+[2026-04-30 10:45:38] INFO: Author restored successfully, id : 1
+[2026-04-30 10:45:38] WARN: Deleted author with id 1 does not exist
+[2026-04-30 10:45:39] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:45:39] INFO: Attempting to create book with unique isbn : 1234567890
+[2026-04-30 10:45:39] INFO: Book created successfully, title : Test ISBN: 1234567890
+[2026-04-30 10:45:39] WARN: Duplicate ISBN error : 1234567890
+[2026-04-30 10:45:39] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:45:39] INFO: Attempting to soft delete book with id 1
+[2026-04-30 10:45:39] INFO: Book soft deleted successfully, id : 1
+[2026-04-30 10:45:39] WARN: Book with id 1 does not exist or is already deleted
+[2026-04-30 10:45:40] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:40] INFO: Fetching authors | filters: name=Test, order=DESC, page=1, limit=10
+[2026-04-30 10:45:40] INFO: Fetching authors | filters: name=any, order=DESC, page=1, limit=10
+[2026-04-30 10:45:40] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:45:40] INFO: Authors retrieved successfully | counts = 1
+[2026-04-30 10:45:40] WARN: No authors found for the given filters

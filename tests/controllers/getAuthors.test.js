@@ -5,7 +5,7 @@ let mockFetchFirst;
 let mockFetchAll;
 let mockExecute;
 
-describe('get All authors unit test', async ()=>{
+describe('get All authors unit test', ()=>{
     let req;
     let res;
 
@@ -16,7 +16,7 @@ describe('get All authors unit test', async ()=>{
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,

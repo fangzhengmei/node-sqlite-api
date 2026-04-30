@@ -16,7 +16,7 @@ describe('Create Books test',()=>{
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,
@@ -40,7 +40,9 @@ describe('Create Books test',()=>{
     });
 
     test('should create a book if it doesnot already exist', async()=>{
-        mockFetchFirst.mockResolvedValue(null);
+        mockFetchFirst
+            .mockResolvedValueOnce(null)
+            .mockResolvedValueOnce({ id: 1, name: 'Test Author' });
         mockExecute.mockResolvedValue();
 
         await createBooks(req, res);
@@ -74,7 +76,7 @@ describe('Create Books test',()=>{
         
         await expect(createBooks(req, res)).rejects.toMatchObject({
             message: 'Book with this isbn already exists',
-            statusCode: 409,
+            statusCode: 409
         });
 
         expect(mockExecute).not.toHaveBeenCalled();

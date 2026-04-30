@@ -1,0 +1,311 @@
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+  console.log
+    Connected to SQLite database at G:\fangzheng\solo-dogfeeding\code\node-sqlite-api-10530\data\app.db
+
+      at config/connDB.js:17:13
+
+
+FAIL tests/controllers/getAuthors.test.js
+  ● Test suite failed to run
+
+    Returning a Promise from "describe" is not supported. Tests must be defined synchronously.
+
+    [0m [90m  6 |[39m [36mlet[39m mockExecute[33m;[39m
+     [90m  7 |[39m
+    [31m[1m>[22m[39m[90m  8 |[39m describe([32m'get All authors unit test'[39m[33m,[39m [36masync[39m ()[33m=>[39m{
+     [90m    |[39m [31m[1m^[22m[39m
+     [90m  9 |[39m     [36mlet[39m req[33m;[39m
+     [90m 10 |[39m     [36mlet[39m res[33m;[39m
+     [90m 11 |[39m[0m
+
+      at tests/controllers/getAuthors.test.js:8:1
+
+(node:25364) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:27564) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/deleteBook.test.js (18.538 s)
+  deleteBook unit test
+    √ should soft delete an existing book (4870 ms)
+    √ should return 404 when book does not exist (1138 ms)
+
+(node:24988) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/getSingleDeletedBook.test.js (18.724 s)
+  getSingleDeletedBook unit test
+    √ should return a single deleted book with author info (4925 ms)
+    √ should return 404 when deleted book does not exist (1075 ms)
+
+(node:11260) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/restoreAuthor.test.js (18.78 s)
+  restoreAuthor unit test
+    √ should restore a deleted author and their books (4860 ms)
+    √ should return 404 when deleted author does not exist (1093 ms)
+
+(node:26284) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/createAuthor.test.js (18.779 s)
+  createAuthor unit tests
+    √ should create a new author when email does not exist (4917 ms)
+    √ throw error if the email already exists (1027 ms)
+
+(node:25160) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/deleteAuthor.test.js (18.912 s)
+  deleteAuthor unit test
+    √ should soft delete an existing author and their books (4931 ms)
+    √ should return 404 when author does not exist (1001 ms)
+
+(node:25300) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/getBooks.test.js (19.182 s)
+  get All Books method test
+    √ should return books with default query params (4977 ms)
+    √ should apply title filter when provided (1056 ms)
+    √ should return 204 when no books found (726 ms)
+
+(node:23752) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/getDeletedBooks.test.js (19.172 s)
+  getDeletedBooks unit test
+    √ should return deleted books with default query params (4882 ms)
+    √ should apply title filter when provided (1074 ms)
+    √ should return 204 when no deleted books found (673 ms)
+
+(node:3384) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/getDeletedAuthors.test.js (19.195 s)
+  getDeletedAuthors unit test
+    √ should return deleted authors with default query params (4924 ms)
+    √ should apply name filter when provided (1102 ms)
+    √ should return 204 when no deleted authors found (642 ms)
+
+(node:292) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/getSingleDeletedAuthor.test.js (19.164 s)
+  getSingleDeletedAuthor unit test
+    √ should return a single deleted author with their deleted books (4894 ms)
+    √ should return 404 when deleted author does not exist (1132 ms)
+    √ should return deleted author without books when no deleted books exist (621 ms)
+
+(node:26576) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/controllers/restoreBook.test.js (19.368 s)
+  restoreBook unit test
+    √ should restore a deleted book when author is not deleted (4858 ms)
+    √ should return 404 when deleted book does not exist (1106 ms)
+    √ should return 400 when author is also deleted (535 ms)
+
+FAIL tests/controllers/createBook.test.js
+  Create Books test
+    × should create a book if it doesnot already exist (280 ms)
+    √ Throw 409 if book already exists (307 ms)
+
+  ● Create Books test › should create a book if it doesnot already exist
+
+    No such author with id 1 exists in the author table
+
+    [0m [90m 25 |[39m     [36mif[39m([33m![39mauthor){
+     [90m 26 |[39m         logger[33m.[39mwarn([32m`Invalid author_id : ${author_id} while creating book with isbn ${isbn}`[39m)
+    [31m[1m>[22m[39m[90m 27 |[39m         [36mconst[39m error [33m=[39m [36mnew[39m [33mError[39m([32m`No such author with id ${author_id} exists in the author table`[39m)[33m;[39m
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 28 |[39m         error[33m.[39mstatusCode [33m=[39m [35m400[39m[33m;[39m 
+     [90m 29 |[39m         [36mthrow[39m error[33m;[39m
+     [90m 30 |[39m     }[0m
+
+      at controllers/booksController.js:27:23
+      at Object.<anonymous> (tests/controllers/createBook.test.js:46:9)
+
+FAIL tests/controllers/updateBook.test.js (6.925 s)
+  update books controller method test
+    √ Book does not exist (5046 ms)
+    √ should throw 409 if ISBN already exists (654 ms)
+    × should update multiple fields successfully (265 ms)
+    √ should throw 400 if author_id is invalid (280 ms)
+
+  ● update books controller method test › should update multiple fields successfully
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    - Expected
+    + Received
+
+      {"all": [Function mockConstructor], "close": [Function mockConstructor], "get": [Function mockConstructor], "run": [Function mockConstructor]},
+      "UPDATE books SET title = ?, isbn = ?, published_year = ?, author_id = ? WHERE id = ? AND deleted_at IS NULL",
+      Array [
+        "Test",
+        "1234567890",
+    -   1996,
+    -   1,
+    +   "1996",
+    +   "1",
+        1,
+      ],
+
+    Number of calls: 1
+
+    [0m [90m 79 |[39m         [36mawait[39m updateBooks(req[33m,[39mres)[33m;[39m
+     [90m 80 |[39m
+    [31m[1m>[22m[39m[90m 81 |[39m         expect(mockExecute)[33m.[39mtoHaveBeenCalledWith(
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 82 |[39m             expect[33m.[39manything()[33m,[39m
+     [90m 83 |[39m             expect[33m.[39mstringContaining([32m'UPDATE books SET'[39m)[33m,[39m
+     [90m 84 |[39m             [[32m'Test'[39m[33m,[39m [32m'1234567890'[39m[33m,[39m [35m1996[39m[33m,[39m [35m1[39m[33m,[39m [35m1[39m][0m
+
+      at Object.<anonymous> (tests/controllers/updateBook.test.js:81:29)
+
+Test Suites: 3 failed, 10 passed, 13 total
+Tests:       2 failed, 29 passed, 31 total
+Snapshots:   0 total
+Time:        24.552 s
+Ran all test suites matching tests/controllers/createAuthor.test.js|tests/controllers/createBook.test.js|tests/controllers/getAuthors.test.js|tests/controllers/getBooks.test.js|tests/controllers/updateBook.test.js|tests/controllers/deleteAuthor.test.js|tests/controllers/deleteBook.test.js|tests/controllers/getDeletedAuthors.test.js|tests/controllers/getDeletedBooks.test.js|tests/controllers/getSingleDeletedAuthor.test.js|tests/controllers/getSingleDeletedBook.test.js|tests/controllers/restoreAuthor.test.js|tests/controllers/restoreBook.test.js.

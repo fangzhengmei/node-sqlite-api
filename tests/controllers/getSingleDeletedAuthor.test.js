@@ -16,7 +16,7 @@ describe('getSingleDeletedAuthor unit test', () => {
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,

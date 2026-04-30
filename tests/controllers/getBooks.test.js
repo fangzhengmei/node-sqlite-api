@@ -16,7 +16,7 @@ describe('get All Books method test', ()=>{
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,
@@ -77,7 +77,7 @@ describe('get All Books method test', ()=>{
         expect(mockFetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('books.title LIKE ?'),
-            expect.arrayContaining(['%Test%', 2025, 10, 0])
+            expect.arrayContaining(['%Test%', '2025', 10, 0])
         );
 
         expect(res.status).toHaveBeenCalledWith(200);

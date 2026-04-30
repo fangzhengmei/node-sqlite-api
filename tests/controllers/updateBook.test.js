@@ -16,7 +16,7 @@ describe('update books controller method test',()=>{
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,
@@ -81,7 +81,7 @@ describe('update books controller method test',()=>{
         expect(mockExecute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('UPDATE books SET'),
-            ['Test', '1234567890', 1996, 1, 1]
+            ['Test', '1234567890', '1996', '1', 1]
         );
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });

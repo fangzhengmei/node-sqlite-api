@@ -16,7 +16,7 @@ describe('createAuthor unit tests', ()=>{
         mockFetchAll = jest.fn();
         mockExecute = jest.fn();
         
-        jest.doMock('../../utils/dbRunMethodWrapper.js', () => ({
+        await jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
             __esModule: true,
             fetchFirst: mockFetchFirst,
             fetchAll: mockFetchAll,
@@ -63,8 +63,8 @@ describe('createAuthor unit tests', ()=>{
 
         await expect(createAuthor(req, res)).rejects.toMatchObject({
             message: 'Author with this email already exists',
-            statusCode: 409,
-        }));
+            statusCode: 409
+        });
 
         expect(mockFetchFirst).toHaveBeenCalledWith(
             expect.anything(),
