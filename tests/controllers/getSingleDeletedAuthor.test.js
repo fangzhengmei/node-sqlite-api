@@ -1,0 +1,90 @@
+import { getSingleDeletedAuthor } from "../../controllers/authorController.js";
+import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+
+jest.mock('../../utils/dbRunMethodWrapper.js');
+
+describe('getSingleDeletedAuthor unit test', () => {
+    let req;
+    let res;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+        req = { params: { authorId: 1 } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    test('should return a single deleted author with their deleted books', async () => {
+        dbHelpers.fetchAll.mockResolvedValue([
+            {
+                author_id: 1,
+                name: 'Test Author',
+                email: 'test@test.com',
+                author_created_at: '2025-09-12 06:47:02',
+                deleted_at: '2025-09-13 06:47:02',
+                book_id: 1,
+                title: 'Test Book',
+                isbn: '1234567890',
+                published_year: 2020,
+                book_created_at: '2025-09-12 06:47:02'
+            }
+        ]);
+
+        await getSingleDeletedAuthor(req, res);
+
+        expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.stringContaining('WHERE authors.id = ? AND authors.deleted_at IS NOT NULL'),
+            [1]
+        );
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            msg: 'Deleted author retreived sucessfully',
+            data: expect.objectContaining({
+                id: 1,
+                name: 'Test Author',
+                email: 'test@test.com',
+                deleted_at: '2025-09-13 06:47:02'
+            })
+        }));
+    });
+
+    test('should return 404 when deleted author does not exist', async () => {
+        dbHelpers.fetchAll.mockResolvedValue([]);
+
+        await getSingleDeletedAuthor(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith(
+            expect.objectContaining({ msg: 'Deleted author with the given id 1 does not exist' })
+        );
+    });
+
+    test('should return deleted author without books when no deleted books exist', async () => {
+        dbHelpers.fetchAll.mockResolvedValue([
+            {
+                author_id: 1,
+                name: 'Test Author',
+                email: 'test@test.com',
+                author_created_at: '2025-09-12 06:47:02',
+                deleted_at: '2025-09-13 06:47:02',
+                book_id: null,
+                title: null,
+                isbn: null,
+                published_year: null,
+                book_created_at: null
+            }
+        ]);
+
+        await getSingleDeletedAuthor(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                books: []
+            })
+        }));
+    });
+});

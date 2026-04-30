@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAllBooksValidator, getSingleBookValidator, updateBooksValidator, validateCreateBook } from "../../validation/bookValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
-import { createBooks, getAllBooks, getSingleBook, updateBooks } from "../../controllers/booksController.js";
+import { createBooks, getAllBooks, getSingleBook, updateBooks, deleteBook, getDeletedBooks, getSingleDeletedBook, restoreBook } from "../../controllers/booksController.js";
 
 export const bookRouter = Router();
 
@@ -143,6 +143,56 @@ export const bookRouter = Router();
 
 /**
  * @swagger
+ * /books/deleted:
+ *   get:
+ *     summary: Get list of all deleted books
+ *     description: retrieve a list of deleted books with optional filtering
+ *     tags: [Books]
+ *     parameters: 
+ *       - in: query
+ *         name: title
+ *         schema: 
+ *           type: string
+ *         description: Filter books by title
+ *       - in: query
+ *         name: year
+ *         schema: 
+ *           type: integer
+ *         description: Filter books by year
+ *       - in: query
+ *         name: order
+ *         schema: 
+ *           type: string
+ *           enum: [ASC, DESC]
+ *           default: DESC
+ *         description: Sort books by different options
+ *       - in: query
+ *         name: sort
+ *         schema: 
+ *           type: string
+ *           enum: [title, published_year, created_at, deleted_at]
+ *         description: Sort books by different fields
+ *       - in: query
+ *         name: page
+ *         schema: 
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema: 
+ *           type: integer
+ *           default: 10
+ *         description: Number of results per page
+ *     responses: 
+ *       200:
+ *         description: List of deleted books retrieved successfully
+ *       204: 
+ *         description: No deleted books found
+ */
+
+/**
+ * @swagger
  * /books/{id}:
  *   get:
  *     summary: Get a single book by ID
@@ -179,6 +229,7 @@ export const bookRouter = Router();
  *           application/json:
  *             example:
  *               msg: "No book with  id 99 exists in the books table"
+ * 
  *   put:
  *     summary: Update a book by ID
  *     description: Update one or more fields of a book in the database. At least one field must be provided.
@@ -240,10 +291,78 @@ export const bookRouter = Router();
  *           application/json:
  *             example:
  *               msg: "Book with this isbn already exists, update it to something else"
+ * 
+ *   delete:
+ *     summary: Soft delete a book by ID
+ *     description: Soft delete a book from the database.
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the book to delete
+ *     responses:
+ *       200:
+ *         description: Book deleted successfully
+ *       404:
+ *         description: Book not found
+ */
+
+/**
+ * @swagger
+ * /books/deleted/{id}:
+ *   get:
+ *     summary: Get a single deleted book by ID
+ *     description: Retrieve a single deleted book and their associated author details from the database.
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the deleted book
+ *     responses:
+ *       200:
+ *         description: Deleted book retrieved successfully
+ *       404:
+ *         description: Deleted book not found
+ */
+
+/**
+ * @swagger
+ * /books/{id}/restore:
+ *   post:
+ *     summary: Restore a deleted book by ID
+ *     description: Restore a deleted book from the database. Note: the book's author must not be deleted.
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the book to restore
+ *     responses:
+ *       200:
+ *         description: Book restored successfully
+ *       400:
+ *         description: Author is also deleted
+ *       404:
+ *         description: Deleted book not found
  */
 
 bookRouter.post('/',validateCreateBook, validationErrorHandler, createBooks );
 bookRouter.get('/' , getAllBooksValidator, validationErrorHandler,  getAllBooks );
+bookRouter.get('/deleted' , getAllBooksValidator, validationErrorHandler,  getDeletedBooks );
 bookRouter.get('/:id' , getSingleBookValidator, validationErrorHandler,  getSingleBook );
+bookRouter.get('/deleted/:id' , getSingleBookValidator, validationErrorHandler,  getSingleDeletedBook );
 bookRouter.put('/:id' , updateBooksValidator, validationErrorHandler, updateBooks );
+bookRouter.delete('/:id' , getSingleBookValidator, validationErrorHandler, deleteBook );
+bookRouter.post('/:id/restore' , getSingleBookValidator, validationErrorHandler, restoreBook );
 

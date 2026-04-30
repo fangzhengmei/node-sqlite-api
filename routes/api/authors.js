@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createAuthorValidation, getAuthorValidation, getSingleAuthorValidation } from "../../validation/authorValidator.js";
 import { validationErrorHandler } from "../../middlewares/validatorErrorHandler.js";
-import { createAuthor, getAllAuthors, getSingleAuthor } from "../../controllers/authorController.js";
+import { createAuthor, getAllAuthors, getSingleAuthor, deleteAuthor, getDeletedAuthors, getSingleDeletedAuthor, restoreAuthor } from "../../controllers/authorController.js";
 
 export const authorRouter = Router();
 
@@ -126,6 +126,45 @@ export const authorRouter = Router();
 
 /**
  * @swagger
+ * /authors/deleted:
+ *   get:
+ *     summary: Get list of all deleted authors
+ *     description: retrieve a list of deleted authors with optional filtering
+ *     tags: [Authors]
+ *     parameters: 
+ *       - in: query
+ *         name: name
+ *         schema: 
+ *           type: string
+ *         description: Filter authors by name
+ *       - in: query
+ *         name: order
+ *         schema: 
+ *           type: string
+ *           enum: [ASC, DESC]
+ *           default: DESC
+ *         description: Sort authors by deleted_at in ascending or descending order
+ *       - in: query
+ *         name: page
+ *         schema: 
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema: 
+ *           type: integer
+ *           default: 10
+ *         description: Number of results per page
+ *     responses: 
+ *       200:
+ *         description: List of deleted authors retrieved successfully
+ *       204: 
+ *         description: No deleted authors found
+ */
+
+/**
+ * @swagger
  * /authors/{authorId}:
  *   get:
  *     summary: Get a single author by ID
@@ -168,9 +207,75 @@ export const authorRouter = Router();
  *           application/json:
  *             example:
  *               msg: "Author with the given id 99 does not exist"
+ * 
+ *   delete:
+ *     summary: Soft delete an author by ID
+ *     description: Soft delete an author and all their associated books from the database.
+ *     tags: [Authors]
+ *     parameters:
+ *       - in: path
+ *         name: authorId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the author to delete
+ *     responses:
+ *       200:
+ *         description: Author deleted successfully
+ *       404:
+ *         description: Author not found
+ */
+
+/**
+ * @swagger
+ * /authors/deleted/{authorId}:
+ *   get:
+ *     summary: Get a single deleted author by ID
+ *     description: Retrieve a single deleted author and their associated deleted books from the database.
+ *     tags: [Authors]
+ *     parameters:
+ *       - in: path
+ *         name: authorId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the deleted author
+ *     responses:
+ *       200:
+ *         description: Deleted author retrieved successfully
+ *       404:
+ *         description: Deleted author not found
+ */
+
+/**
+ * @swagger
+ * /authors/{authorId}/restore:
+ *   post:
+ *     summary: Restore a deleted author by ID
+ *     description: Restore a deleted author and all their associated deleted books from the database.
+ *     tags: [Authors]
+ *     parameters:
+ *       - in: path
+ *         name: authorId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: The unique ID of the author to restore
+ *     responses:
+ *       200:
+ *         description: Author restored successfully
+ *       404:
+ *         description: Deleted author not found
  */
 
 authorRouter.post('/', createAuthorValidation, validationErrorHandler , createAuthor);
 authorRouter.get('/', getAuthorValidation, validationErrorHandler , getAllAuthors);
+authorRouter.get('/deleted', getAuthorValidation, validationErrorHandler , getDeletedAuthors);
 authorRouter.get('/:authorId', getSingleAuthorValidation, validationErrorHandler , getSingleAuthor);
+authorRouter.get('/deleted/:authorId', getSingleAuthorValidation, validationErrorHandler , getSingleDeletedAuthor);
+authorRouter.delete('/:authorId', getSingleAuthorValidation, validationErrorHandler , deleteAuthor);
+authorRouter.post('/:authorId/restore', getSingleAuthorValidation, validationErrorHandler , restoreAuthor);
 
