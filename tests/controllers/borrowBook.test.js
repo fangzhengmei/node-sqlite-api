@@ -113,13 +113,15 @@ describe('returnBook unit tests', ()=>{
 
     test('should return a book successfully', async()=>{
         dbHelpers.fetchFirst
-            .mockResolvedValueOnce({ id: 1, reader_id: 1, book_id: 1, status: 'borrowed' });
+            .mockResolvedValueOnce({ id: 1, reader_id: 1, book_id: 1, status: 'borrowed' })
+            .mockResolvedValueOnce({ available_quantity: 1 })
+            .mockResolvedValueOnce(null);
         
         dbHelpers.execute.mockResolvedValue();
 
         await returnBook(req, res);
 
-        expect(dbHelpers.fetchFirst).toHaveBeenCalledTimes(1);
+        expect(dbHelpers.fetchFirst).toHaveBeenCalledTimes(3);
         expect(dbHelpers.execute).toHaveBeenCalled();
 
         expect(res.status).toHaveBeenCalledWith(200);

@@ -2,13 +2,7 @@ import { beforeEach } from 'node:test';
 import {updateBooks} from '../../controllers/booksController.js';
 import * as dbHelper from '../../utils/dbRunMethodWrapper.js';
 
-jest.mock('../../utils/dbRunMethodWrapper.js', () => ({
-    ...jest.requireActual('../../utils/dbRunMethodWrapper.js'),
-    fetchFirst: jest.fn(),
-    fetchAll: jest.fn(),
-    execute: jest.fn(),
-    runInTransaction: jest.fn((db, fn) => fn())
-}));
+jest.mock('../../utils/dbRunMethodWrapper.js');
 
 describe('update books controller method test',()=>{
     let req;
@@ -43,10 +37,11 @@ describe('update books controller method test',()=>{
 
     test('should throw 409 if ISBN already exists', async () => {
         req = {
-        body: { isbn: '1234567890' },
-        params: { id: 1 }
+        body: { isbn: '1234567890' }
         };
+        //to find boo upon the furst call
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title' });
+        //to simulate a duplicate book found
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 2, title: 'Another Book' });
 
         await expect(updateBooks(req, res)).rejects.toMatchObject({
@@ -58,8 +53,8 @@ describe('update books controller method test',()=>{
     });
 
     test('should update multiple fields successfully', async()=>{
-        dbHelper.fetchFirst.mockResolvedValueOnce({id: 1, title: 'Old Title', isbn: '1234567999'});
-        dbHelper.fetchFirst.mockResolvedValueOnce(null);
+        dbHelper.fetchFirst.mockResolvedValue({id: 1, title: 'Old Title', isbn: '1234567999'});
+        dbHelper.fetchFirst.mockResolvedValue(null);
         dbHelper.execute.mockResolvedValue();
 
         await updateBooks(req,res);

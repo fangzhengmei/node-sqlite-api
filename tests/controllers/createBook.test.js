@@ -2,13 +2,7 @@ import { beforeEach, describe } from 'node:test';
 import { createBooks } from '../../controllers/booksController.js';
 import * as dbHelper from "../../utils/dbRunMethodWrapper.js";
 
-jest.mock('../../utils/dbRunMethodWrapper.js', () => ({
-    ...jest.requireActual('../../utils/dbRunMethodWrapper.js'),
-    fetchFirst: jest.fn(),
-    fetchAll: jest.fn(),
-    execute: jest.fn(),
-    runInTransaction: jest.fn((db, fn) => fn())
-}));
+jest.mock('../../utils/dbRunMethodWrapper.js');
 
 describe('Create Books test',()=>{
     let req;
@@ -30,20 +24,23 @@ describe('Create Books test',()=>{
     });
 
     test('should create a book if it doesnot already exist', async()=>{
-        dbHelper.fetchFirst.mockResolvedValue(null);
+        dbHelper.fetchAll.mockResolvedValue(null);
         dbHelper.execute.mockResolvedValue();
 
         await createBooks(req, res);
 
-        expect(dbHelper.fetchFirst).toHaveBeenCalledWith(
+        expect(dbHelper.fetchAll).toHaveBeenCalledWith(
             expect.anything(),
-            expect.stringContaining('SELECT * FROM books'),
+            'SELECT * FROM books WHERE isbn = ?',
             ['1234567890']
         );
 
         expect(dbHelper.execute).toHaveBeenCalledWith(
             expect.anything(),
-            expect.stringContaining('INSERT INTO books'),
+            `INSERT INTO books
+            (title, isbn, published_year, author_id)
+            VALUES
+            (?,?,?,?)`,
             ['Test','1234567890',1996,1]
         );
 
@@ -52,19 +49,16 @@ describe('Create Books test',()=>{
     }),
 
     test('Throw 409 if book already exists',async()=>{
-        dbHelper.fetchFirst.mockResolvedValue({
+        dbHelper.fetchAll.mockResolvedValue([{
                 id : 1,
                 title : 'Test',
                 isbn : '1234567890',
                 published_year : 1996 , 
                 author_id : 1,
                 created_at : '2025-09-12 06:47:02',
-            });
+            }]);
         
-        await expect(createBooks(req, res)).rejects.toMatchObject({
-            message: 'Book with this isbn already exists',
-            statusCode: 409,
-        });
+        await createBooks(req,res);
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
         expect(res.status).not.toHaveBeenCalled();

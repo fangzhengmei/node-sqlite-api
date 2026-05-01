@@ -1,42 +1,38 @@
 import { asyncHandler } from "../utils/asyncWrapper.js";
-import { execute, fetchFirst, fetchAll, runInTransaction} from "../utils/dbRunMethodWrapper.js";
+import { execute, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
 
 export const createBooks = asyncHandler(async(req, res)=>{
     const { title, isbn , published_year, author_id } = req.body;
     logger.info(`Attempting to create book with unique isbn : ${isbn}`);
-    
-    await runInTransaction(db, async () => {
-        const checksDuplicacySQL = `
-            SELECT * FROM books
-            WHERE isbn = ?
-        `;
-        const duplicate = await fetchFirst(db, checksDuplicacySQL, [isbn] );
-        if(duplicate){
-            logger.warn(`Duplicate ISBN error : ${isbn}`)
-            const error = new Error("Book with this isbn already exists");
-            error.statusCode = 409; 
-            throw error;
-        }
-        const checkAuthorSQL = `
-            SELECT * FROM authors
-            WHERE id = ?
-        `
-        const author = await fetchFirst(db, checkAuthorSQL, [author_id]);
-        if(!author){
-            logger.warn(`Invalid author_id : ${author_id} while creating book with isbn ${isbn}`)
-            const error = new Error(`No such author with id ${author_id} exists in the author table`);
-            error.statusCode = 400; 
-            throw error;
-        }
-        const sql = `INSERT INTO books
-        (title, isbn, published_year, author_id)
-        VALUES
-        (?,?,?,?)`
-        await execute(db, sql, [title, isbn, published_year, author_id]);
-    });
-    
+    const checksDuplicacySQL = `
+        SELECT * FROM books
+        WHERE isbn = ?
+    `;
+    const duplicate = await fetchFirst(db, checksDuplicacySQL, [isbn] );
+    if(duplicate){
+        logger.warn(`Duplicate ISBN error : ${isbn}`)
+        const error = new Error("Book with this isbn already exists");
+        error.statusCode = 409; 
+        throw error;
+    }
+    const checkAuthorSQL = `
+        SELECT * FROM authors
+        WHERE id = ?
+    `
+    const author = await fetchFirst(db, checkAuthorSQL, [author_id]);
+    if(!author){
+        logger.warn(`Invalid author_id : ${author_id} while creating book with isbn ${isbn}`)
+        const error = new Error(`No such author with id ${author_id} exists in the author table`);
+        error.statusCode = 400; 
+        throw error;
+    }
+    const sql = `INSERT INTO books
+    (title, isbn, published_year, author_id)
+    VALUES
+    (?,?,?,?)`
+    await execute(db, sql, [title, isbn, published_year, author_id]);
     logger.info(`Book created successfully, title : ${title} ISBN: ${isbn}`);
     return res.status(200).json({msg:'Book created successfully'});
 });
@@ -123,61 +119,57 @@ export const updateBooks = asyncHandler(async(req,res)=>{
         error.statusCode = 400;
         throw error;
     }
-    
-    await runInTransaction(db, async () => {
-        const findBookSQL = `
+    const findBookSQL = `
+        SELECT * FROM books
+        WHERE id = ?
+    ` 
+    logger.info(`Attempting to retrive the book to be updated`);
+    const foundBook = await fetchFirst(db, findBookSQL, [id]);
+    if(!foundBook){
+        logger.warn(`Book with id ${id} does not exist in the books table`)
+        const error = new Error(`No such book with id ${id} exists in the books table`);
+        error.statusCode = 400; 
+        throw error;
+    } 
+    let updateSQL = 'UPDATE books'
+    const params = []
+    const searchFields = []
+    if (title) {
+        searchFields.push(`title = ?`);
+        params.push(`${title}`);
+    }
+    if(isbn){
+        const findDuplicateSQL = `
             SELECT * FROM books
-            WHERE id = ?
+            WHERE isbn = ?
         ` 
-        logger.info(`Attempting to retrive the book to be updated`);
-        const foundBook = await fetchFirst(db, findBookSQL, [id]);
-        if(!foundBook){
-            logger.warn(`Book with id ${id} does not exist in the books table`)
-            const error = new Error(`No such book with id ${id} exists in the books table`);
-            error.statusCode = 400; 
+        const duplicateBook = await fetchFirst(db, findDuplicateSQL, [isbn]);
+        if(duplicateBook && duplicateBook.id !== id){
+            logger.warn(`Book with the same ISBN ${isbn} already exists and the isbn is supposed to be unique hence the isbn cannot be updated to ${isbn}`);
+            const error = new Error("Book with this isbn already exists, update it to something else");
+            error.statusCode = 409; 
             throw error;
-        } 
-        let updateSQL = 'UPDATE books'
-        const params = []
-        const searchFields = []
-        if (title) {
-            searchFields.push(`title = ?`);
-            params.push(`${title}`);
         }
-        if(isbn){
-            const findDuplicateSQL = `
-                SELECT * FROM books
-                WHERE isbn = ?
-            ` 
-            const duplicateBook = await fetchFirst(db, findDuplicateSQL, [isbn]);
-            if(duplicateBook && duplicateBook.id !== parseInt(id)){
-                logger.warn(`Book with the same ISBN ${isbn} already exists and the isbn is supposed to be unique hence the isbn cannot be updated to ${isbn}`);
-                const error = new Error("Book with this isbn already exists, update it to something else");
-                error.statusCode = 409; 
-                throw error;
-            }
-            searchFields.push(`isbn = ?`)
-            params.push(`${isbn}`);
-        }
-        if(published_year){
-            searchFields.push(`published_year = ?`)
-            params.push(`${published_year}`);
-        }
-        if(author_id){
-            searchFields.push(`author_id = ?`)
-            params.push(`${author_id}`);
-        }
-        if(searchFields.length>0){
-            updateSQL += ` SET ` + searchFields.join(', ');
-        }
-        updateSQL += ` WHERE id = ?`
-        params.push(id); 
-        logger.info(
-            `Updating books | update fields : title=${title || "any"}, isbn = ${isbn || "any"}, published_year=${published_year || "any"}, author_id=${author_id || "any"}`
-        )
-        await execute(db, updateSQL, params) ;
-    });
-    
+        searchFields.push(`isbn = ?`)
+        params.push(`${isbn}`);
+    }
+    if(published_year){
+        searchFields.push(`published_year = ?`)
+        params.push(`${published_year}`);
+    }
+    if(author_id){
+        searchFields.push(`author_id = ?`)
+        params.push(`${author_id}`);
+    }
+    if(searchFields.length>0){
+        updateSQL += ` SET ` + searchFields.join(', ');
+    }
+    updateSQL += ` WHERE id = ?`
+    params.push(id); 
+    logger.info(
+        `Updating books | update fields : title=${title || "any"}, isbn = ${isbn || "any"}, published_year=${published_year || "any"}, author_id=${author_id || "any"}`
+    )
+    await execute(db, updateSQL, params) ;
     logger.info(`Book updated successfully`);
     return res.status(200).json({msg:'Book updated successfully'});
 })
