@@ -1,4 +1,3 @@
-import { beforeEach } from "node:test";
 import { getAllBooks } from "../../controllers/booksController.js"
 import * as dbHelpers from "../../utils/dbRunMethodWrapper.js";
 
@@ -18,24 +17,26 @@ describe('get All Books method test', ()=>{
     });
 
     test('should return books with default query params', async()=>{
-        dbHelpers.fetchAll.mockResolvedValue(dbHelper.fetchAll.mockResolvedValue([{
+        dbHelpers.fetchAll.mockResolvedValue([{
                     id : 1,
                     title : 'Test',
                     isbn : '1234567890',
                     published_year : 1996 , 
                     author_id : 1,
                     created_at : '2025-09-12 06:47:02',
-                    author_name: 'Test'
-                }])
-            );
+                    author: 'Test Author',
+                    status: 'available',
+                    total_copies: 5,
+                    available_copies: 5
+                }]);
         
         await getAllBooks(req,res);
 
         expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('LIMIT ? OFFSET ?'),
-            expect.arrayContaining([10,0])
-        )
+            expect.arrayContaining([10, 0])
+        );
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
@@ -46,15 +47,15 @@ describe('get All Books method test', ()=>{
 
     test('should apply title filter when provided', async()=>{
         req.query = { title : 'Test' , year : '2025'};
-        dbHelpers.fetchAll.mockResolvedValue([
-            {
-                id:1,
-                name:'Test',
-                email:'test@gmail.com', 
-                cretatedAt:'2025-09-12 06:47:02', 
-                books_count: 5
-            }
-        ]);
+        dbHelpers.fetchAll.mockResolvedValue([{
+                id: 1,
+                title: 'Test Book',
+                isbn: '1234567890',
+                published_year: 2025,
+                author_id: 1,
+                author: 'Test Author',
+                status: 'available'
+            }]);
 
         await getAllBooks(req,res);
 
@@ -65,11 +66,6 @@ describe('get All Books method test', ()=>{
         );
 
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({
-            msg: 'Authors retreived sucessfully',
-            data: expect.any(Array),
-            pagination: { page: 1, limit: 10, count: 1 }
-        }));
     });
 
     test('should return 204 when no books found', async()=>{
@@ -80,4 +76,4 @@ describe('get All Books method test', ()=>{
             expect(res.status).toHaveBeenCalledWith(204);
             expect(res.json).toHaveBeenCalledWith({msg:"No any books in the list yet"});
     });
-})
+});

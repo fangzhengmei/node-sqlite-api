@@ -1,10 +1,9 @@
-import { beforeEach } from "node:test";
 import { getAllAuthors } from "../../controllers/authorController.js";
 import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
 
 jest.mock('../../utils/dbRunMethodWrapper.js');
 
-describe('get All authors unit test', async ()=>{
+describe('get All authors unit test', ()=>{
     let req;
     let res;
 
@@ -25,7 +24,7 @@ describe('get All authors unit test', async ()=>{
         expect(dbHelpers.fetchAll).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('LIMIT ? OFFSET ?'),
-            expect.arrayContaining([10,0])
+            expect.arrayContaining([10, 0])
         );
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -63,5 +62,5 @@ describe('get All authors unit test', async ()=>{
 
         expect(res.status).toHaveBeenCalledWith(204);
         expect(res.json).toHaveBeenCalledWith({msg:"No any authors in the list yet"});
-    })
-})
+    });
+});

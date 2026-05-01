@@ -1,4 +1,3 @@
-import { beforeEach } from 'node:test';
 import {updateBooks} from '../../controllers/booksController.js';
 import * as dbHelper from '../../utils/dbRunMethodWrapper.js';
 
@@ -33,20 +32,19 @@ describe('update books controller method test',()=>{
         });
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
-    })
+    });
 
     test('should throw 409 if ISBN already exists', async () => {
         req = {
-        body: { isbn: '1234567890' }
+            params: { id: 1 },
+            body: { isbn: '1234567890' }
         };
-        //to find boo upon the furst call
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title' });
-        //to simulate a duplicate book found
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 2, title: 'Another Book' });
 
         await expect(updateBooks(req, res)).rejects.toMatchObject({
-        message: 'Book with this isbn already exists, update it to something else',
-        statusCode: 409
+            message: 'Book with this isbn already exists, update it to something else',
+            statusCode: 409
         });
 
         expect(dbHelper.execute).not.toHaveBeenCalled();
@@ -54,7 +52,6 @@ describe('update books controller method test',()=>{
 
     test('should update multiple fields successfully', async()=>{
         dbHelper.fetchFirst.mockResolvedValue({id: 1, title: 'Old Title', isbn: '1234567999'});
-        dbHelper.fetchFirst.mockResolvedValue(null);
         dbHelper.execute.mockResolvedValue();
 
         await updateBooks(req,res);
@@ -65,6 +62,70 @@ describe('update books controller method test',()=>{
             ['Test', '1234567890', 1996, 1, 1]
         );
         expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
-    })
-})
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
+    });
+
+    test('should throw error when trying to update status directly', async()=>{
+        req = {
+            params: { id: 1 },
+            body: { status: 'checked_out' }
+        };
+        
+        dbHelper.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book' });
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: expect.stringContaining('Status cannot be modified directly'),
+            statusCode: 400
+        });
+
+        expect(dbHelper.execute).not.toHaveBeenCalled();
+    });
+
+    test('should throw error when trying to update total_copies directly', async()=>{
+        req = {
+            params: { id: 1 },
+            body: { total_copies: 10 }
+        };
+        
+        dbHelper.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book' });
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: expect.stringContaining('Inventory fields'),
+            statusCode: 400
+        });
+
+        expect(dbHelper.execute).not.toHaveBeenCalled();
+    });
+
+    test('should throw error when trying to update available_copies directly', async()=>{
+        req = {
+            params: { id: 1 },
+            body: { available_copies: 5 }
+        };
+        
+        dbHelper.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book' });
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: expect.stringContaining('Inventory fields'),
+            statusCode: 400
+        });
+
+        expect(dbHelper.execute).not.toHaveBeenCalled();
+    });
+
+    test('should throw error when no fields provided', async()=>{
+        req = {
+            params: { id: 1 },
+            body: {}
+        };
+        
+        dbHelper.fetchFirst.mockResolvedValue({ id: 1, title: 'Test Book' });
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: 'At least one field must be provided to update',
+            statusCode: 400
+        });
+
+        expect(dbHelper.execute).not.toHaveBeenCalled();
+    });
+});
