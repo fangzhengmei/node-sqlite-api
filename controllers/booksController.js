@@ -2,9 +2,10 @@ import { asyncHandler } from "../utils/asyncWrapper.js";
 import { execute, fetchFirst, fetchAll} from "../utils/dbRunMethodWrapper.js";
 import db from '../config/connDB.js';
 import { logger } from "../logger/logger.js";
+import { BookStates, isValidInitialState } from "../utils/stateMachine.js";
 
 export const createBooks = asyncHandler(async(req, res)=>{
-    const { title, isbn , published_year, author_id } = req.body;
+    const { title, isbn , published_year, author_id, total_copies, status } = req.body;
     logger.info(`Attempting to create book with unique isbn : ${isbn}`);
     const checksDuplicacySQL = `
         SELECT * FROM books
@@ -28,13 +29,42 @@ export const createBooks = asyncHandler(async(req, res)=>{
         error.statusCode = 400; 
         throw error;
     }
+
+    const copies = total_copies ? parseInt(total_copies) : 1;
+    if (copies < 1) {
+        const error = new Error("Total copies must be at least 1");
+        error.statusCode = 400;
+        throw error;
+    }
+
+    let bookStatus = status || BookStates.AVAILABLE;
+    if (status && !isValidInitialState(status)) {
+        const error = new Error(`Invalid initial status: ${status}. Valid initial states are: ${Object.values(BookStates).join(', ')}`);
+        error.statusCode = 400;
+        throw error;
+    }
+
+    const availableCopies = bookStatus === BookStates.AVAILABLE ? copies : 0;
+
     const sql = `INSERT INTO books
-    (title, isbn, published_year, author_id)
+    (title, isbn, published_year, author_id, total_copies, available_copies, status)
     VALUES
-    (?,?,?,?)`
-    await execute(db, sql, [title, isbn, published_year, author_id]);
-    logger.info(`Book created successfully, title : ${title} ISBN: ${isbn}`);
-    return res.status(200).json({msg:'Book created successfully'});
+    (?,?,?,?,?,?,?)`
+    const result = await execute(db, sql, [title, isbn, published_year, author_id, copies, availableCopies, bookStatus]);
+    const bookId = result.lastID;
+    
+    logger.info(`Book created successfully, title : ${title} ISBN: ${isbn} ID: ${bookId}`);
+    return res.status(200).json({
+        msg:'Book created successfully',
+        data: {
+            id: bookId,
+            title,
+            isbn,
+            status: bookStatus,
+            total_copies: copies,
+            available_copies: availableCopies
+        }
+    });
 });
 
 export const getAllBooks = asyncHandler(async(req, res)=>{
@@ -93,10 +123,11 @@ export const getSingleBook = asyncHandler(async(req,res)=>{
     const findBookSQL = `
         SELECT 
         authors.id AS author_id,authors.name, authors.email, authors.cretated_at AS author_created_at,
-        books.id AS book_id,books.title,books.isbn,books.published_year,books.created_at AS book_created_at
+        books.id AS book_id,books.title,books.isbn,books.published_year,books.status,
+        books.total_copies,books.available_copies,books.created_at AS book_created_at
         FROM authors
         JOIN books ON authors.id = books.author_id
-        WHERE authors.id = ?
+        WHERE books.id = ?
     `;
     logger.info(`Attempting to retrieve book and book author info for book with id ${id}`);
     const book = await fetchFirst(db, findBookSQL, [id]);
@@ -112,7 +143,22 @@ export const getSingleBook = asyncHandler(async(req,res)=>{
 
 export const updateBooks = asyncHandler(async(req,res)=>{
     const {id} = req.params;
-    const { title, isbn , published_year, author_id} = req.body;
+    const { title, isbn , published_year, author_id, status, total_copies, available_copies} = req.body;
+    
+    if (status !== undefined) {
+        logger.warn(`Attempt to directly modify status field for book ${id}`);
+        const error = new Error("Status cannot be modified directly. Use the lending API endpoints to change book status.");
+        error.statusCode = 400;
+        throw error;
+    }
+
+    if (total_copies !== undefined || available_copies !== undefined) {
+        logger.warn(`Attempt to directly modify inventory fields for book ${id}`);
+        const error = new Error("Inventory fields (total_copies, available_copies) cannot be modified directly. Use the appropriate inventory management endpoints.");
+        error.statusCode = 400;
+        throw error;
+    }
+
     if (!title && !isbn && !published_year && !author_id) {
         logger.warn(`At least one of the fields from title, isbn, published_year or author_id must be provided for updation`)
         const error = new Error("At least one field must be provided to update");
