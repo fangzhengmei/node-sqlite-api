@@ -9,6 +9,9 @@ describe('update books controller method test',()=>{
     let res;
     beforeEach(()=>{
         jest.clearAllMocks();
+        dbHelper.withTransaction.mockImplementation(async (db, callback) => {
+            return callback();
+        });
         req = {
             body : { 
                 title : 'Test',
@@ -32,16 +35,16 @@ describe('update books controller method test',()=>{
             statusCode: 400
         });
 
+        expect(dbHelper.withTransaction).toHaveBeenCalled();
         expect(dbHelper.execute).not.toHaveBeenCalled();
     })
 
     test('should throw 409 if ISBN already exists', async () => {
         req = {
-        body: { isbn: '1234567890' }
+        body: { isbn: '1234567890' },
+        params: { id: 1 }
         };
-        //to find boo upon the furst call
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 1, title: 'Old Title' });
-        //to simulate a duplicate book found
         dbHelper.fetchFirst.mockResolvedValueOnce({ id: 2, title: 'Another Book' });
 
         await expect(updateBooks(req, res)).rejects.toMatchObject({
@@ -49,22 +52,48 @@ describe('update books controller method test',()=>{
         statusCode: 409
         });
 
+        expect(dbHelper.withTransaction).toHaveBeenCalled();
         expect(dbHelper.execute).not.toHaveBeenCalled();
     });
 
     test('should update multiple fields successfully', async()=>{
-        dbHelper.fetchFirst.mockResolvedValue({id: 1, title: 'Old Title', isbn: '1234567999'});
-        dbHelper.fetchFirst.mockResolvedValue(null);
+        dbHelper.fetchFirst.mockResolvedValueOnce({id: 1, title: 'Old Title', isbn: '1234567999'});
+        dbHelper.fetchFirst.mockResolvedValueOnce(null);
         dbHelper.execute.mockResolvedValue();
 
         await updateBooks(req,res);
 
+        expect(dbHelper.withTransaction).toHaveBeenCalled();
         expect(dbHelper.execute).toHaveBeenCalledWith(
             expect.anything(),
             expect.stringContaining('UPDATE books SET title = ?, isbn = ?, published_year = ?, author_id = ? WHERE id = ?'),
             ['Test', '1234567890', 1996, 1, 1]
         );
         expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
-    })
-})
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Book updated successfully' });
+    });
+
+    test('should rollback transaction if update fails', async()=>{
+        dbHelper.fetchFirst.mockResolvedValueOnce({id: 1, title: 'Old Title', isbn: '1234567999'});
+        dbHelper.fetchFirst.mockResolvedValueOnce(null);
+        dbHelper.execute.mockRejectedValue(new Error('Update failed'));
+
+        await expect(updateBooks(req, res)).rejects.toThrow('Update failed');
+
+        expect(dbHelper.withTransaction).toHaveBeenCalled();
+    });
+
+    test('should throw 400 if no fields provided', async()=>{
+        req = {
+            body: {},
+            params: { id: 1 }
+        };
+
+        await expect(updateBooks(req, res)).rejects.toMatchObject({
+            message: 'At least one field must be provided to update',
+            statusCode: 400
+        });
+
+        expect(dbHelper.withTransaction).not.toHaveBeenCalled();
+    });
+});

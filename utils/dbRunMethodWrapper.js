@@ -1,3 +1,5 @@
+import { logger } from "../logger/logger.js";
+
 export const execute = async(db , sql , params = [])=>{
     if(params && params.length > 0){
         return new Promise((resolve, reject)=>{
@@ -70,9 +72,8 @@ export const withTransaction = async (db, callback) => {
     try {
       await rollbackTransaction(db);
     } catch (rollbackErr) {
-      console.error('Rollback failed:', rollbackErr);
+      logger.error(`Rollback failed: ${rollbackErr.message}`);
     }
     throw err;
   }
 };
-
