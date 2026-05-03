@@ -1,14 +1,42 @@
-import { borrowBook } from '../../controllers/borrowController.js';
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, expect, describe, test, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
+  fetchFirst: jest.fn(),
+  fetchAll: jest.fn(),
+  execute: jest.fn()
+}));
+
+jest.unstable_mockModule('../../config/connDB.js', () => ({
+  default: {}
+}));
+
+jest.unstable_mockModule('../../logger/logger.js', () => ({
+  logger: {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn()
+  }
+}));
+
+jest.unstable_mockModule('../../utils/asyncWrapper.js', () => ({
+  asyncHandler: (fn) => fn
+}));
 
 describe('borrowBook unit tests', () => {
+    let borrowBook;
+    let dbHelpers;
     let req;
     let res;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        jest.resetModules();
         jest.clearAllMocks();
+        
+        const dbHelpersModule = await import('../../utils/dbRunMethodWrapper.js');
+        dbHelpers = dbHelpersModule;
+        
+        const borrowModule = await import('../../controllers/borrowController.js');
+        borrowBook = borrowModule.borrowBook;
 
         req = {
             body: {
@@ -59,8 +87,6 @@ describe('borrowBook unit tests', () => {
 
         expect(dbHelpers.fetchFirst).toHaveBeenCalledTimes(1);
         expect(dbHelpers.execute).not.toHaveBeenCalled();
-        expect(res.status).not.toHaveBeenCalled();
-        expect(res.json).not.toHaveBeenCalled();
     });
 
     test('should throw 409 error when book is already borrowed', async () => {

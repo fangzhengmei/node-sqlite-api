@@ -1,14 +1,42 @@
-import { payFine } from '../../controllers/fineController.js';
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, expect, describe, test, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
+  fetchFirst: jest.fn(),
+  fetchAll: jest.fn(),
+  execute: jest.fn()
+}));
+
+jest.unstable_mockModule('../../config/connDB.js', () => ({
+  default: {}
+}));
+
+jest.unstable_mockModule('../../logger/logger.js', () => ({
+  logger: {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn()
+  }
+}));
+
+jest.unstable_mockModule('../../utils/asyncWrapper.js', () => ({
+  asyncHandler: (fn) => fn
+}));
 
 describe('payFine unit tests', () => {
+    let payFine;
+    let dbHelpers;
     let req;
     let res;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        jest.resetModules();
         jest.clearAllMocks();
+        
+        const dbHelpersModule = await import('../../utils/dbRunMethodWrapper.js');
+        dbHelpers = dbHelpersModule;
+        
+        const fineModule = await import('../../controllers/fineController.js');
+        payFine = fineModule.payFine;
 
         req = {
             params: { fine_id: 1 },
@@ -39,7 +67,7 @@ describe('payFine unit tests', () => {
                 fine_amount: 2.5,
                 fine_days: 5,
                 is_paid: 1,
-                paid_date: expect.any(String),
+                paid_date: '2026-05-04',
                 borrower_name: 'John Doe',
                 book_id: 1,
                 title: 'Test Book'

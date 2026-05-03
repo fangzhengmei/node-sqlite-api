@@ -1,14 +1,42 @@
-import { returnBook } from '../../controllers/borrowController.js';
-import * as dbHelpers from '../../utils/dbRunMethodWrapper.js';
+import { jest, expect, describe, test, beforeEach } from '@jest/globals';
 
-jest.mock('../../utils/dbRunMethodWrapper.js');
+jest.unstable_mockModule('../../utils/dbRunMethodWrapper.js', () => ({
+  fetchFirst: jest.fn(),
+  fetchAll: jest.fn(),
+  execute: jest.fn()
+}));
+
+jest.unstable_mockModule('../../config/connDB.js', () => ({
+  default: {}
+}));
+
+jest.unstable_mockModule('../../logger/logger.js', () => ({
+  logger: {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn()
+  }
+}));
+
+jest.unstable_mockModule('../../utils/asyncWrapper.js', () => ({
+  asyncHandler: (fn) => fn
+}));
 
 describe('returnBook unit tests', () => {
+    let returnBook;
+    let dbHelpers;
     let req;
     let res;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+        jest.resetModules();
         jest.clearAllMocks();
+        
+        const dbHelpersModule = await import('../../utils/dbRunMethodWrapper.js');
+        dbHelpers = dbHelpersModule;
+        
+        const borrowModule = await import('../../controllers/borrowController.js');
+        returnBook = borrowModule.returnBook;
 
         req = {
             params: { borrow_id: 1 },
@@ -22,7 +50,6 @@ describe('returnBook unit tests', () => {
     });
 
     test('should return book on time without fine', async () => {
-        const today = new Date().toISOString().split('T')[0];
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 7);
         const dueDateStr = dueDate.toISOString().split('T')[0];
@@ -60,7 +87,6 @@ describe('returnBook unit tests', () => {
     });
 
     test('should return book overdue and create fine', async () => {
-        const today = new Date();
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() - 5);
         const dueDateStr = dueDate.toISOString().split('T')[0];
